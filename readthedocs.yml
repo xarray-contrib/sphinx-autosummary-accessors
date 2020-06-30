@@ -1,0 +1,12 @@
+version: 2
+
+formats: []
+
+build:
+  image: latest
+
+python:
+  install:
+    - method: pip
+      path: -e .
+    - requirements: docs/requirements.txt
