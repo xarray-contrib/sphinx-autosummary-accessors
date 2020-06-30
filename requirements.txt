@@ -1,0 +1,4 @@
+sphinx
+isort
+flake8
+black
