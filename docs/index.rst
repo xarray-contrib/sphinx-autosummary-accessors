@@ -1,7 +1,8 @@
-accessors
-=========
-`accessors` is a `sphinx` extension to properly document `pandas`_ or
-`xarray`_ style accessors using `autosummary`_ and `autodoc`_.
+sphinx-autosummary-accessors
+============================
+`sphinx-autosummary-accessors` is a `sphinx` extension to properly
+document `pandas`_ or `xarray`_ style accessors using `autosummary`_
+and `autodoc`_.
 
 `autosummary`_ is able to create summary and detail pages for objects
 and their methods, but its doesn't work well with accessor styled
@@ -12,17 +13,17 @@ code.
 
 To avoid even more duplicated code, and to make it easier for projects
 to document their custom accessors, this package aims to make this
-(almost) as simple as adding ``"accessors"`` to the ``extensions``
-setting.
+(almost) as simple as adding ``"sphinx_autosummary_accessors"`` to the
+``extensions`` setting.
 
 
 Installation
 ------------
-`accessors` has never been released yet, so install it from `source`_:
+``sphinx-autosummary-accessors`` has never been released yet, so install it from `source`_:
 
 .. code:: sh
 
-   python -m pip install git+https://github.com/keewis/accessors
+   python -m pip install git+https://github.com/keewis/sphinx-autosummary-accessors
 
 
 Then add it to the list of extensions in ``conf.py``:
@@ -31,7 +32,7 @@ Then add it to the list of extensions in ``conf.py``:
 
     extensions = [
        ...,
-       "accessors",
+       "sphinx_autosummary_accessors",
        ...,
     ]
 
@@ -39,7 +40,7 @@ and set ``templates_path`` appropriately:
 
 .. code:: python
 
-   templates_path = ["_templates", accessors.templates_path]
+   templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
 
 Usage
 -----

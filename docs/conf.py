@@ -18,14 +18,14 @@ import datetime as dt
 import pathlib
 import site
 
-import accessors
+import sphinx_autosummary_accessors
 
 here = pathlib.Path(__file__).absolute().parent
 site.addsitedir(str(here))
 
 # -- Project information -----------------------------------------------------
 
-project = "accessors"
+project = "sphinx-autosummary-accessors"
 year = dt.datetime.now().year
 author = "xarray developers"
 copyright = f"{year}, {author}"
@@ -41,7 +41,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
-    "accessors",
+    "sphinx_autosummary_accessors",
 ]
 
 autosummary_generate = True
@@ -50,7 +50,7 @@ napoleon_use_param = True
 napoleon_use_rtype = True
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates", accessors.templates_path]
+templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
