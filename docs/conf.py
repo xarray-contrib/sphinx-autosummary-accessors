@@ -15,6 +15,11 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 import datetime as dt
+import pathlib
+import site
+
+here = pathlib.Path(__file__).absolute().parent
+site.addsitedir(str(here))
 
 # -- Project information -----------------------------------------------------
 
