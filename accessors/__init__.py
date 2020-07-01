@@ -4,6 +4,8 @@ import sphinx
 from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
 from sphinx.util import rpartition
 
+templates_path = str(pathlib.Path(__file__).parent / "templates")
+
 
 class AccessorDocumenter(MethodDocumenter):
     """
@@ -111,7 +113,3 @@ def setup(app):
     app.add_autodocumenter(AccessorAttributeDocumenter)
     app.add_autodocumenter(AccessorMethodDocumenter)
     app.add_autodocumenter(AccessorCallableDocumenter)
-
-    here = pathlib.Path(__file__).absolute().parent
-    templates_directory = here / "templates"
-    app.config.templates_path.append(str(templates_directory))
