@@ -11,9 +11,21 @@ accessor documentation build using `autosummary`_ templates, which
 code.
 
 To avoid even more duplicated code, and to make it easier for projects
-to document their custom accessors, this package aims to make this as
-simple as adding ``"accessors"`` to the ``extensions`` setting in
-``conf.py``:
+to document their custom accessors, this package aims to make this
+(almost) as simple as adding ``"accessors"`` to the ``extensions``
+setting.
+
+
+Installation
+------------
+`accessors` has never been released yet, so install it from `source`_:
+
+.. code:: sh
+
+   python -m pip install git+https://github.com/keewis/accessors
+
+
+Then add it to the list of extensions in ``conf.py``:
 
 .. code:: python
 
@@ -22,6 +34,15 @@ simple as adding ``"accessors"`` to the ``extensions`` setting in
        "accessors",
        ...,
     ]
+
+and set ``templates_path`` appropriately:
+
+.. code:: python
+
+   templates_path = ["_templates", accessors.templates_path]
+
+Usage
+-----
 
 Then, we can simply add a template option to the `autosummary`_
 directives to get summary and detail pages:
@@ -32,13 +53,13 @@ directives to get summary and detail pages:
 
    .. autosummary::
       :toctree: generated/
-      :template: accessor_attribute.rst
+      :template: autosummary/accessor_attribute.rst
 
       Example.test.double
 
    .. autosummary::
       :toctree: generated/
-      :template: accessor_method.rst
+      :template: autosummary/accessor_method.rst
 
       Example.test.multiply
    
@@ -49,13 +70,13 @@ will become:
 
 .. autosummary::
     :toctree: generated/
-    :template: accessor_attribute.rst
+    :template: autosummary/accessor_attribute.rst
 
     Example.test.double
 
 .. autosummary::
     :toctree: generated/
-    :template: accessor_method.rst
+    :template: autosummary/accessor_method.rst
 
     Example.test.multiply
 
@@ -64,3 +85,4 @@ will become:
 .. _xarray: https://xarray.pydata.org
 .. _autodoc: https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 .. _autosummary: https://www.sphinx-doc.org/en/master/usage/extensions/autosummary.html
+.. _source: https://github.com/keewis/accessors

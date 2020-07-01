@@ -1,6 +1,10 @@
+import pathlib
+
 import sphinx
 from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
 from sphinx.util import rpartition
+
+templates_path = str(pathlib.Path(__file__).parent / "templates")
 
 
 class AccessorDocumenter(MethodDocumenter):
