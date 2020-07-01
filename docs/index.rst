@@ -32,13 +32,13 @@ directives to get summary and detail pages:
 
    .. autosummary::
       :toctree: generated/
-      :template: accessor_attribute.rst
+      :template: autosummary/accessor_attribute.rst
 
       Example.test.double
 
    .. autosummary::
       :toctree: generated/
-      :template: accessor_method.rst
+      :template: autosummary/accessor_method.rst
 
       Example.test.multiply
    
@@ -49,13 +49,13 @@ will become:
 
 .. autosummary::
     :toctree: generated/
-    :template: accessor_attribute.rst
+    :template: autosummary/accessor_attribute.rst
 
     Example.test.double
 
 .. autosummary::
     :toctree: generated/
-    :template: accessor_method.rst
+    :template: autosummary/accessor_method.rst
 
     Example.test.multiply
 
