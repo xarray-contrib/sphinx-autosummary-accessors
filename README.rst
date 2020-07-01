@@ -1,5 +1,5 @@
-accessors
-=========
+sphinx-autosummary-accessors
+============================
 
 A ``sphinx`` extension to properly document
 `pandas <https://github.com/pandas-dev/pandas>`_ or
