@@ -1,6 +1,10 @@
 sphinx-autosummary-accessors
 ============================
 
+.. image:: https://readthedocs.org/projects/sphinx-autosummary-accessors/badge/?version=latest
+   :target: https://sphinx-autosummary-accessors.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
 A ``sphinx`` extension to properly document
 `pandas <https://github.com/pandas-dev/pandas>`_ or
 `xarray <https://github.com/pydata/xarray>`_ accessors.
