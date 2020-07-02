@@ -20,18 +20,16 @@ and set ``templates_path`` appropriately:
 Then, we can simply add a ``template`` option to the ``autosummary``
 directive to get summary and detail pages:
 
-.. code:: rst
+.. code-block:: rst
 
    .. currentmodule:: example
 
-   Just the attributes:
    .. autosummary::
       :toctree: generated/
       :template: autosummary/accessor_attribute.rst
 
       Example.test.double
 
-   The methods:
    .. autosummary::
       :toctree: generated/
       :template: autosummary/accessor_method.rst

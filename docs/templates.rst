@@ -6,10 +6,8 @@ Templates
 There are four templates available:
 
 +---------------+----------------------------------------+----------------------------------------------+
-|     Name      | Path                                   | Description                                  |
+|     Name      | Path                                   | Used to document ...                         |
 +===============+========================================+==============================================+
-| **accessor**  | ``autosummary/accessor.rst``           | accessor classes                             |
-+---------------+----------------------------------------+----------------------------------------------+
 | **attribute** | ``autosummary/accessor_attribute.rst`` | attributes / properties                      |
 +---------------+----------------------------------------+----------------------------------------------+
 | **method**    | ``autosummary/accessor_method.rst``    | methods                                      |
