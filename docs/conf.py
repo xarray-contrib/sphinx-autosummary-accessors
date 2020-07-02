@@ -44,11 +44,6 @@ extensions = [
     "sphinx_autosummary_accessors",
 ]
 
-autosummary_generate = True
-
-napoleon_use_param = True
-napoleon_use_rtype = True
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
 
@@ -72,6 +67,11 @@ html_theme = "sphinx_rtd_theme"
 
 
 # -- Extension configuration -------------------------------------------------
+autosummary_generate = True
+
+napoleon_use_param = True
+napoleon_use_rtype = True
+
 
 # -- Options for intersphinx extension ---------------------------------------
 
