@@ -10,3 +10,6 @@ python:
     - requirements: docs/requirements.txt
     - method: pip
       path: .
+
+sphinx:
+  fail_on_warning: true
