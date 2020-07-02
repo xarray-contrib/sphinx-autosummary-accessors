@@ -16,6 +16,8 @@ to document their custom accessors, this package aims to make this
 (almost) as simple as adding ``"sphinx_autosummary_accessors"`` to the
 ``extensions`` setting.
 
+It is developed on `github <https://github.com/keewis/sphinx-autosummary-accessors>`_.
+
 
 Installation
 ------------
