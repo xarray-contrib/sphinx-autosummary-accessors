@@ -69,6 +69,8 @@ html_theme = "sphinx_rtd_theme"
 # -- Extension configuration -------------------------------------------------
 autosummary_generate = True
 
+autodoc_typehints = "none"
+
 napoleon_use_param = True
 napoleon_use_rtype = True
 
