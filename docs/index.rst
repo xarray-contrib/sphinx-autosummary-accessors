@@ -1,6 +1,6 @@
 sphinx-autosummary-accessors
 ============================
-`sphinx-autosummary-accessors` is a `sphinx` extension to properly
+**sphinx-autosummary-accessors** is a `sphinx`_ extension to properly
 document `pandas`_ or `xarray`_ style accessors using `autosummary`_
 and `autodoc`_.
 
@@ -19,7 +19,7 @@ to document their custom accessors, this package aims to make this
 
 Installation
 ------------
-``sphinx-autosummary-accessors`` has never been released yet, so install it from `source`_:
+**sphinx-autosummary-accessors** has never been released yet, so install it from `source`_:
 
 .. code:: sh
 
