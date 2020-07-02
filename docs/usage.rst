@@ -1,3 +1,7 @@
+.. currentmodule:: example
+
+.. _usage:
+
 Usage
 =====
 
@@ -21,8 +25,6 @@ Then, we can simply add a ``template`` option to the ``autosummary``
 directive to get summary and detail pages:
 
 .. code-block:: rst
-
-   .. currentmodule:: example
 
    .. autosummary::
       :toctree: generated/
