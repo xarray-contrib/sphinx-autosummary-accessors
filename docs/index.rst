@@ -5,9 +5,9 @@ document `pandas`_ or `xarray`_ style accessors using `autosummary`_
 and `autodoc`_.
 
 `autosummary`_ is able to create summary and detail pages for objects
-and their methods, but its doesn't work well with accessor styled
-properties and methods (``obj.accessor.attribute``). `pandas`_ has
-accessor documentation build using `autosummary`_ templates, which
+and their methods, but it doesn't work well with accessor styled
+properties and methods (``obj.accessor.attribute``). `pandas`_ uses
+`autosummary`_ templates to build its accessor documentation, which
 `xarray`_ recently adopted by copying the templates and all related
 code.
 
