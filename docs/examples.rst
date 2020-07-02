@@ -1,3 +1,7 @@
+.. ATTENTION: to work around a bug in autosummary (it executes
+   autosummary directives in code blocks), this uses literalinclude on
+   itself. That means that each time the number of lines change, we
+   have to check that this is still up-to-date.
 .. currentmodule:: example
 
 .. _examples:
@@ -13,19 +17,9 @@ Consider the accessor class:
 Documenting attributes and methods can be done with the
 ``accessor_attribute.rst`` and ``accessor_method.rst`` templates:
 
-.. code:: rst
-
-   .. autosummary::
-      :toctree: generated/
-      :template: autosummary/accessor_attribute.rst
-
-      Example.test.double
-
-   .. autosummary::
-      :toctree: generated/
-      :template: autosummary/accessor_method.rst
-
-      Example.test.multiply
+.. literalinclude:: examples.rst
+   :language: rst
+   :lines: 26-36
 
 becomes:
 
@@ -43,13 +37,9 @@ becomes:
 
 Callable accessors can be documented, too:
 
-.. code:: rst
-
-   .. autosummary::
-      :toctree: generated/
-      :template: autosummary/accessor_callable.rst
-
-      Example.test
+.. literalinclude:: examples.rst
+   :language: rst
+   :lines: 46-50
 
 becomes:
 
