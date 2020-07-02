@@ -109,6 +109,8 @@ class AccessorCallableDocumenter(AccessorLevelDocumenter, MethodDocumenter):
 
 
 def setup(app):
+    app.setup_extension("sphinx.ext.autosummary")
+
     app.add_autodocumenter(AccessorDocumenter)
     app.add_autodocumenter(AccessorAttributeDocumenter)
     app.add_autodocumenter(AccessorMethodDocumenter)
