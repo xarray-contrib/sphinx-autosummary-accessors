@@ -1,3 +1,8 @@
+try:
+    from importlib.metadata import version
+except ImportError:
+    from importlib_metadata import version
+
 import pathlib
 
 from .autosummary import CustomAutosummary
@@ -7,6 +12,11 @@ from .documenters import (
     AccessorDocumenter,
     AccessorMethodDocumenter,
 )
+
+try:
+    __version__ = version("sphinx-autosummary-version")
+except Exception:
+    __version__ = "999"
 
 templates_path = str(pathlib.Path(__file__).parent / "templates")
 
