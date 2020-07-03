@@ -5,13 +5,21 @@ except ImportError:
 
 import pathlib
 
-from .autosummary import CustomAutosummary
+import packaging.version
+import sphinx
+
 from .documenters import (
     AccessorAttributeDocumenter,
     AccessorCallableDocumenter,
     AccessorDocumenter,
     AccessorMethodDocumenter,
 )
+
+if packaging.version.parse(sphinx.__version__) >= packaging.version.parse("3.1"):
+    from .autosummary import CustomAutosummary
+else:
+    CustomAutosummary = None
+
 
 try:
     __version__ = version("sphinx-autosummary-version")
@@ -29,4 +37,5 @@ def setup(app):
     app.add_autodocumenter(AccessorMethodDocumenter)
     app.add_autodocumenter(AccessorCallableDocumenter)
 
-    app.add_directive("autosummary", CustomAutosummary, override=True)
+    if CustomAutosummary is not None:
+        app.add_directive("autosummary", CustomAutosummary, override=True)
