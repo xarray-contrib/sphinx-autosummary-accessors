@@ -47,4 +47,4 @@ becomes:
    :toctree: generated/
    :template: autosummary/accessor_callable.rst
 
-   example.Example.test
+   Example.test
