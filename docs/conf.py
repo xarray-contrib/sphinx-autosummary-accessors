@@ -18,10 +18,11 @@ import datetime as dt
 import pathlib
 import site
 
-import sphinx_autosummary_accessors
-
 here = pathlib.Path(__file__).absolute().parent
 site.addsitedir(str(here))
+site.addsitedir(str(here.parent))
+
+import sphinx_autosummary_accessors  # isort:skip # noqa: F401
 
 # -- Project information -----------------------------------------------------
 
