@@ -63,6 +63,10 @@ templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
+# master document
+master_doc = "index"
+suffix = ".rst"
+
 
 # -- Options for HTML output -------------------------------------------------
 
