@@ -23,8 +23,6 @@ class CustomAutosummary(Autosummary):
         options["imported_members"] = options.get("imported_members", False)
         options["recursive"] = options.get("recursive", False)
 
-        print("getting documenter for", name)
-
         app = self.env.app
 
         context = {}
