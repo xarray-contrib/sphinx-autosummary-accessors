@@ -17,12 +17,22 @@
 import datetime as dt
 import pathlib
 import site
+import subprocess
+import sys
 
 here = pathlib.Path(__file__).absolute().parent
 site.addsitedir(str(here))
 site.addsitedir(str(here.parent))
 
 import sphinx_autosummary_accessors  # isort:skip # noqa: F401
+
+
+# -- environment information -------------------------------------------------
+
+print(f"sys.path: {sys.path}")
+print(f"sphinx-autosummary-accessors: {sphinx_autosummary_accessors.__version__}")
+print("environment:")
+subprocess.run(["python", "-m", "pip", "list"])
 
 # -- Project information -----------------------------------------------------
 
