@@ -23,6 +23,8 @@ class CustomAutosummary(Autosummary):
         options["imported_members"] = options.get("imported_members", False)
         options["recursive"] = options.get("recursive", False)
 
+        print("getting documenter for", name)
+
         app = self.env.app
 
         context = {}
@@ -48,7 +50,6 @@ class CustomAutosummary(Autosummary):
         """Try to import the given names, and return a list of
         ``[(name, signature, summary_string, real_name), ...]``.
         """
-        print("running custom get_items")
         prefixes = autosummary.get_import_prefixes_from_env(self.env)
 
         items = []
