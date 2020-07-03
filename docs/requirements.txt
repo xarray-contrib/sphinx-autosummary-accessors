@@ -1,2 +1,3 @@
 sphinx>3
 sphinx_rtd_theme
+importlib-metadata; python_version < "3.8"

@@ -1,6 +1,14 @@
 sphinx-autosummary-accessors
 ============================
 
+.. image:: https://github.com/keewis/sphinx-autosummary-accessors/workflows/CI/badge.svg?branch=master
+    :target: https://github.com/keewis/sphinx-autosummary-accessors/actions
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/python/black
+.. image:: https://readthedocs.org/projects/sphinx-autosummary-accessors/badge/?version=latest
+   :target: https://sphinx-autosummary-accessors.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
 A ``sphinx`` extension to properly document
 `pandas <https://github.com/pandas-dev/pandas>`_ or
 `xarray <https://github.com/pydata/xarray>`_ accessors.

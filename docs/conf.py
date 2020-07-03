@@ -17,11 +17,22 @@
 import datetime as dt
 import pathlib
 import site
-
-import sphinx_autosummary_accessors
+import subprocess
+import sys
 
 here = pathlib.Path(__file__).absolute().parent
 site.addsitedir(str(here))
+site.addsitedir(str(here.parent))
+
+import sphinx_autosummary_accessors  # isort:skip # noqa: F401
+
+
+# -- environment information -------------------------------------------------
+
+print(f"sys.path: {sys.path}")
+print(f"sphinx-autosummary-accessors: {sphinx_autosummary_accessors.__version__}")
+print("environment:")
+subprocess.run(["python", "-m", "pip", "list"])
 
 # -- Project information -----------------------------------------------------
 
@@ -43,11 +54,6 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_autosummary_accessors",
 ]
-
-autosummary_generate = True
-
-napoleon_use_param = True
-napoleon_use_rtype = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates", sphinx_autosummary_accessors.templates_path]
@@ -72,6 +78,13 @@ html_theme = "sphinx_rtd_theme"
 
 
 # -- Extension configuration -------------------------------------------------
+autosummary_generate = True
+
+autodoc_typehints = "none"
+
+napoleon_use_param = True
+napoleon_use_rtype = True
+
 
 # -- Options for intersphinx extension ---------------------------------------
 

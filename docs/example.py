@@ -29,8 +29,25 @@ def register_accessor(name):
 
 @register_accessor("test")
 class TestAccessor:
+    """ an accessor of Example """
+
     def __init__(self, obj):
         self._obj = obj
+
+    def __call__(self, other):
+        """ check for equality
+
+        Parameters
+        ----------
+        other
+            The value to compare to
+
+        Returns
+        -------
+        result : bool
+        """
+
+        return self._obj._data == other
 
     @property
     def double(self):
