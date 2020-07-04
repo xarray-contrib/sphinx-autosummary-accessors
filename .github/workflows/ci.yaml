@@ -13,13 +13,9 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.6, 3.7]
+        python-version: [3.6, 3.7, 3.8]
         sphinx-version: [1.8, 2, 3]
         include:
-          - python-version: 3.8
-            sphinx-version: [1.8, 2, 3]
-            dependencies: ""
-
           - python-version: 3.8
             dependencies: "upstream-dev"
 
