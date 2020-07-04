@@ -14,9 +14,12 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.7, 3.8]
-        sphinx-version: [1.8, 2, 3]
-        include:
-          - python-version: 3.8
+        sphinx-version: [1.8, 2, 3, "upstream-dev"]
+        exclude:
+          - python-version: 3.6
+            dependencies: "upstream-dev"
+
+          - python-version: 3.7
             dependencies: "upstream-dev"
 
     steps:
@@ -33,18 +36,16 @@ jobs:
 
       - name: install sphinx
         run: |
-          if [ -n "${{ matrix.dependencies }}" ]; then
-              python -m pip install git+https://github.com/sphinx-doc/sphinx
-          else
-              if [[ "${{ matrix.sphinx-version }}" == "1.8" ]]; then
-                  spec="sphinx==1.8"
-              elif [[ "${{ matrix.sphinx-version }}" == "2" ]]; then
-                  spec="sphinx>=2,<3"
-              elif [[ "${{ matrix.sphinx-version }}" == "3" ]]; then
-                  spec="sphinx>=3,<4"
-              fi
-              python -m pip install "$spec"
+          if [[ "${{ matrix.sphinx-version }}" == "1.8" ]]; then
+              spec="sphinx==1.8"
+          elif [[ "${{ matrix.sphinx-version }}" == "2" ]]; then
+              spec="sphinx>=2,<3"
+          elif [[ "${{ matrix.sphinx-version }}" == "3" ]]; then
+              spec="sphinx>=3,<4"
+          elif [[ "${{ matrix.sphinx-version }}" == "upstream-dev" ]]; then
+              spec="git+https://github.com/sphinx-doc/sphinx"
           fi
+          python -m pip install "$spec"
 
       - name: install other dependencies
         run: python -m pip install -r docs/requirements.txt
