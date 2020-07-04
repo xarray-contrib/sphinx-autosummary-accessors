@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: [3.6, 3.7]
+        python-version: [3.6, 3.7, 3.8]
         sphinx-version: [1.8, 2, 3]
         include:
           - python-version: 3.8
@@ -39,7 +39,17 @@ jobs:
           if [ -n "${{ matrix.dependencies }}" ]; then
               python -m pip install git+https://github.com/sphinx-doc/sphinx
           else
-              python -m pip install "sphinx==${{ matrix.sphinx-version }}"
+              case "${{ matrix.sphinx-version }}"
+                  1.8)
+                      spec="sphinx==1.8"
+                      ;;
+
+                  2)
+                      spec="sphinx>=2,<3"
+                  3)
+                      spec="sphinx>=3,<4"
+              esac
+              python -m pip install "$spec"
           fi
 
       - name: install other dependencies
