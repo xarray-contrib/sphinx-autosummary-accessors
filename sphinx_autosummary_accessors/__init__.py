@@ -22,7 +22,7 @@ else:
 
 
 try:
-    __version__ = version("sphinx-autosummary-version")
+    __version__ = version("sphinx-autosummary-accessors")
 except Exception:
     __version__ = "999"
 
