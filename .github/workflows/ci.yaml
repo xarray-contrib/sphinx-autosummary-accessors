@@ -36,11 +36,11 @@ jobs:
           if [ -n "${{ matrix.dependencies }}" ]; then
               python -m pip install git+https://github.com/sphinx-doc/sphinx
           else
-              if [ "${{ matrix.sphinx-version }}" -eq "1.8" ]; then
+              if [[ "${{ matrix.sphinx-version }}" == "1.8" ]]; then
                   spec="sphinx==1.8"
-              elif [ "${{ matrix.sphinx-version }}" -eq "2" ]; then
+              elif [[ "${{ matrix.sphinx-version }}" == "2" ]]; then
                   spec="sphinx>=2,<3"
-              elif [ "${{ matrix.sphinx-version }}" -eq "3" ]; then
+              elif [[ "${{ matrix.sphinx-version }}" == "3" ]]; then
                   spec="sphinx>=3,<4"
               fi
               python -m pip install "$spec"
