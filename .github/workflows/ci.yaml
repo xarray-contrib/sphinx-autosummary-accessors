@@ -17,10 +17,10 @@ jobs:
         sphinx-version: [1.8, 2, 3, "upstream-dev"]
         exclude:
           - python-version: 3.6
-            dependencies: "upstream-dev"
+            sphinx-version: "upstream-dev"
 
           - python-version: 3.7
-            dependencies: "upstream-dev"
+            sphinx-version: "upstream-dev"
 
     steps:
       - name: checkout the repository
