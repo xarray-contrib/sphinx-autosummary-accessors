@@ -14,12 +14,19 @@ Consider the accessor class:
    :language: python
    :lines: 30-
 
+for a class named :py:class:`Example`:
+
+.. autosummary::
+   :toctree: generated/
+
+   Example
+
 Documenting attributes and methods can be done with the
 ``accessor_attribute.rst`` and ``accessor_method.rst`` templates:
 
 .. literalinclude:: examples.rst
    :language: rst
-   :lines: 26-36
+   :lines: 33-43
 
 becomes:
 
@@ -45,7 +52,7 @@ Callable accessors can be documented, too:
 
 .. literalinclude:: examples.rst
    :language: rst
-   :lines: 52-56
+   :lines: 59-63
 
 becomes:
 
