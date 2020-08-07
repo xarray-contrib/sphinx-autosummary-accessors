@@ -1,8 +1,8 @@
 What's new
 ==========
 
-v0.2 (unreleased)
------------------
+v0.1.2 (2020-08-08)
+-------------------
 - declare the extension as parallel read safe (:pull:`19`)
 
 v0.1.1 (2020-08-08)
