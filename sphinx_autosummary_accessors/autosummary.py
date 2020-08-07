@@ -47,7 +47,7 @@ def create_documenter_from_template(autosummary, app, obj, parent, full_name):
 
     documenter_name, real_name = extract_documenter(rendered)
     doccls = app.registry.documenters.get(documenter_name)
-    documenter = doccls(autosummary.bridge, full_name)
+    documenter = doccls(autosummary.bridge, real_name)
 
     return documenter
 
