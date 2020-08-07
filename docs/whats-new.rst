@@ -1,6 +1,10 @@
 What's new
 ==========
 
+v0.2 (unreleased)
+-----------------
+
+
 v0.1 (2020-08-07)
 -----------------
 - import the templates and autodoc documenters from ``pandas`` (:pull:`1`)
