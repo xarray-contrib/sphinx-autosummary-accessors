@@ -48,9 +48,10 @@ copyright = f"{year}, {author}"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.autosummary",
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.extlinks",
+    "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx_autosummary_accessors",
 ]
@@ -82,15 +83,28 @@ html_theme = "sphinx_rtd_theme"
 
 
 # -- Extension configuration -------------------------------------------------
-autosummary_generate = True
 
+# autodoc
 autodoc_typehints = "none"
 
-napoleon_use_param = True
+# autosummary
+autosummary_generate = True
+
+# extlinks
+base_url = "https://github.com/xarray-contrib/sphinx-autosummary-accessors"
+extlinks = {
+    "issue": (f"{base_url}/issues/%s", "GH"),
+    "pull": (f"{base_url}/pull/%s", "PR"),
+}
+
+# napoleon
+napoleon_use_param = False
 napoleon_use_rtype = True
 
 
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {"https://docs.python.org/3/": None}
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3/", None),
+}

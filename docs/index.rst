@@ -27,6 +27,7 @@ It is developed on `github
 * :doc:`usage`
 * :doc:`templates`
 * :doc:`examples`
+* :doc:`whats-new`
 
 
 .. toctree::
@@ -38,6 +39,7 @@ It is developed on `github
    usage
    templates
    examples
+   whats-new
 
 .. _sphinx: https://www.sphinx-doc.org
 .. _pandas: https://pandas.pydata.org
