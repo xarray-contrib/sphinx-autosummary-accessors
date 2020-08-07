@@ -5,9 +5,10 @@ except ImportError:
 
 import pathlib
 
-import packaging.version
+import packaging
 import sphinx
 
+from . import autosummary
 from .documenters import (
     AccessorAttributeDocumenter,
     AccessorCallableDocumenter,
@@ -15,18 +16,18 @@ from .documenters import (
     AccessorMethodDocumenter,
 )
 
-if packaging.version.parse(sphinx.__version__) >= packaging.version.parse("3.1"):
-    from .autosummary import CustomAutosummary
-else:
-    CustomAutosummary = None
-
-
 try:
     __version__ = version("sphinx-autosummary-accessors")
 except Exception:
     __version__ = "999"
 
 templates_path = str(pathlib.Path(__file__).parent / "templates")
+
+
+def add_autosummary_create_documenter(func):
+    import sphinx.ext.autosummary
+
+    sphinx.ext.autosummary.Autosummary.create_documenter = func
 
 
 def setup(app):
@@ -37,5 +38,8 @@ def setup(app):
     app.add_autodocumenter(AccessorMethodDocumenter)
     app.add_autodocumenter(AccessorCallableDocumenter)
 
-    if CustomAutosummary is not None:
-        app.add_directive("autosummary", CustomAutosummary, override=True)
+    sphinx_version = packaging.version.parse(sphinx.__version__)
+    if sphinx_version >= packaging.version.parse("3.2"):
+        add_autosummary_create_documenter(autosummary.create_documenter_from_template)
+    elif sphinx_version >= packaging.version.parse("3.1"):
+        app.add_directive("autosummary", autosummary.CustomAutosummary, override=True)

@@ -3,6 +3,10 @@ import re
 from sphinx.ext import autosummary
 from sphinx.ext.autosummary import Autosummary, __, generate
 
+original_create_documenter = getattr(
+    Autosummary, "create_documenter", lambda *args: None
+)
+
 
 def extract_documenter(content):
     directives_re = re.compile(r"^\.\. ([^:]+):: (.+)$", re.MULTILINE)
@@ -15,34 +19,41 @@ def extract_documenter(content):
     return directive_name, "::".join([modname, name])
 
 
+def create_documenter_from_template(autosummary, app, obj, parent, full_name):
+    real_name = ".".join(full_name.split("::"))
+
+    options = autosummary.options.copy()
+    template_name = options.pop("template")
+    if template_name is None:
+        return original_create_documenter(autosummary, app, obj, parent, full_name)
+
+    options.pop("toctree")
+    options["imported_members"] = options.get("imported_members", False)
+    options["recursive"] = options.get("recursive", False)
+
+    context = {}
+    context.update(app.config.autosummary_context)
+
+    rendered = generate.generate_autosummary_content(
+        real_name,
+        obj,
+        parent,
+        template=generate.AutosummaryRenderer(app),
+        template_name=template_name,
+        app=app,
+        context=context,
+        **options,
+    )
+
+    documenter_name, real_name = extract_documenter(rendered)
+    doccls = app.registry.documenters.get(documenter_name)
+    documenter = doccls(autosummary.bridge, real_name)
+
+    return documenter
+
+
 class CustomAutosummary(Autosummary):
-    def get_documenter_from_template(self, name, obj, parent, options):
-        options = options.copy()
-        options.pop("toctree")
-        template_name = options.pop("template")
-        options["imported_members"] = options.get("imported_members", False)
-        options["recursive"] = options.get("recursive", False)
-
-        app = self.env.app
-
-        context = {}
-        context.update(app.config.autosummary_context)
-
-        rendered = generate.generate_autosummary_content(
-            name,
-            obj,
-            parent,
-            template=generate.AutosummaryRenderer(app),
-            template_name=template_name,
-            app=app,
-            context=context,
-            **options,
-        )
-
-        documenter_name, real_name = extract_documenter(rendered)
-        documenter = app.registry.documenters.get(documenter_name)
-
-        return documenter, real_name
+    create_documenter = create_documenter_from_template
 
     def get_items(self, names):
         """Try to import the given names, and return a list of
@@ -83,14 +94,8 @@ class CustomAutosummary(Autosummary):
             # NB. using full_name here is important, since Documenters
             #     handle module prefixes slightly differently
 
-            if "template" in self.options:
-                doccls, full_name = self.get_documenter_from_template(
-                    real_name, obj, parent, self.options
-                )
-            else:
-                doccls = autosummary.get_documenter(self.env.app, obj, parent)
+            documenter = self.create_documenter(self.env.app, obj, parent, full_name)
 
-            documenter = doccls(self.bridge, full_name)
             if not documenter.parse_name():
                 autosummary.logger.warning(
                     __("failed to parse name %s"),

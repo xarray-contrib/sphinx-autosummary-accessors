@@ -37,9 +37,15 @@ becomes:
 
 Callable accessors can be documented, too:
 
+.. warning::
+
+    This feature is only fully supported from sphinx version 3.1 onwards. On
+    earlier versions, the summary will claim this is a alias of the
+    accessor class.
+
 .. literalinclude:: examples.rst
    :language: rst
-   :lines: 46-50
+   :lines: 52-56
 
 becomes:
 
