@@ -1,6 +1,10 @@
 What's new
 ==========
 
+v0.2 (unreleased)
+-----------------
+
+
 v0.1.1 (2020-08-08)
 -------------------
 - fix autosummary blocks without a template option (:pull:`16`)
