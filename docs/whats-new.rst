@@ -3,7 +3,7 @@ What's new
 
 v0.2 (unreleased)
 -----------------
-
+- declare the extension as parallel read safe (:pull:`19`)
 
 v0.1.1 (2020-08-08)
 -------------------

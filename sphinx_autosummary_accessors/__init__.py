@@ -43,3 +43,5 @@ def setup(app):
         add_autosummary_create_documenter(autosummary.create_documenter_from_template)
     elif sphinx_version >= packaging.version.parse("3.1"):
         app.add_directive("autosummary", autosummary.CustomAutosummary, override=True)
+
+    return {"version": __version__, "parallel_read_safe": True}
