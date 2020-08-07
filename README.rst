@@ -1,8 +1,8 @@
 sphinx-autosummary-accessors
 ============================
 
-.. image:: https://github.com/keewis/sphinx-autosummary-accessors/workflows/CI/badge.svg?branch=master
-    :target: https://github.com/keewis/sphinx-autosummary-accessors/actions
+.. image:: https://github.com/xarray-contrib/sphinx-autosummary-accessors/workflows/CI/badge.svg?branch=master
+    :target: https://github.com/xarray-contrib/sphinx-autosummary-accessors/actions
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/python/black
 .. image:: https://readthedocs.org/projects/sphinx-autosummary-accessors/badge/?version=latest
