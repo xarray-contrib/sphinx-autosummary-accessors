@@ -53,7 +53,16 @@ def create_documenter_from_template(autosummary, app, obj, parent, full_name):
 
 
 class CustomAutosummary(Autosummary):
-    create_documenter = create_documenter_from_template
+    def create_documenter(self, app, obj, parent, full_name):
+        result = create_documenter_from_template(self, app, obj, parent, full_name)
+
+        if result is not None:
+            return result
+
+        doccls = autosummary.get_documenter(app, obj, parent)
+        documenter = doccls(self.bridge, full_name)
+
+        return documenter
 
     def get_items(self, names):
         """Try to import the given names, and return a list of
