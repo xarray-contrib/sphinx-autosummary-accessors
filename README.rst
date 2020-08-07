@@ -25,3 +25,5 @@ to document their custom accessors, this project aims to provide this
 functionality by way of a ``sphinx`` extension. Once it is finished,
 using it should be (almost) as simple as adding ``"accessors"`` to
 ``extensions`` in the project's ``conf.py``.
+
+Most of the code was adapted from ``pandas``.
