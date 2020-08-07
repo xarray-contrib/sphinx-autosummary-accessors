@@ -50,6 +50,7 @@ copyright = f"{year}, {author}"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx_autosummary_accessors",
@@ -88,6 +89,13 @@ autodoc_typehints = "none"
 
 # autosummary
 autosummary_generate = True
+
+# extlinks
+base_url = "https://github.com/xarray-contrib/sphinx-autosummary-accessors"
+extlinks = {
+    "issue": (f"{base_url}/issues/%s", "GH"),
+    "pull": (f"{base_url}/pull/%s", "PR"),
+}
 
 # napoleon
 napoleon_use_param = False
