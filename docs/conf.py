@@ -48,9 +48,9 @@ copyright = f"{year}, {author}"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.autosummary",
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx_autosummary_accessors",
 ]
@@ -82,10 +82,14 @@ html_theme = "sphinx_rtd_theme"
 
 
 # -- Extension configuration -------------------------------------------------
-autosummary_generate = True
 
+# autodoc
 autodoc_typehints = "none"
 
+# autosummary
+autosummary_generate = True
+
+# napoleon
 napoleon_use_param = False
 napoleon_use_rtype = True
 
