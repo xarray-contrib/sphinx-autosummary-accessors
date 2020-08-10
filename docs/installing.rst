@@ -2,7 +2,13 @@
 
 Installing
 ----------
-Install the most recent version from PyPI:
+Install the most recent version from conda-forge:
+
+.. code:: sh
+
+   conda install -c conda-forge sphinx-autosummary-accessors
+
+from PyPI:
 
 .. code:: sh
 
