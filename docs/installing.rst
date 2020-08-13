@@ -2,10 +2,22 @@
 
 Installing
 ----------
-**sphinx-autosummary-accessors** has never been released yet, so install it from `source`_:
+Install the most recent version from conda-forge:
 
 .. code:: sh
 
-   python -m pip install git+https://github.com/keewis/sphinx-autosummary-accessors
+   conda install -c conda-forge sphinx-autosummary-accessors
+
+from PyPI:
+
+.. code:: sh
+
+   python -m pip install sphinx-autosummary-accessors
+
+or from `source`_:
+
+.. code:: sh
+
+   python -m pip install git+https://github.com/keewis/sphinx-autosummary-accessors.git@stable
 
 .. _source: https://github.com/keewis/sphinx-autosummary-accessors
