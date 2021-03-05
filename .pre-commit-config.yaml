@@ -1,16 +1,21 @@
 # https://pre-commit.com/
 repos:
-  # isort should run before black as black sometimes tweaks the isort output
-  - repo: https://github.com/timothycrosley/isort
-    rev: 4.3.21-2
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: requirements-txt-fixer
+      - id: check-merge-conflict
+  - repo: https://github.com/pycqa/isort
+    rev: 5.7.0
     hooks:
       - id: isort
-        files: .+\.py$
   - repo: https://github.com/python/black
-    rev: stable
+    rev: 20.8b1
     hooks:
       - id: black
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7.9
+    rev: 3.8.4
     hooks:
       - id: flake8
