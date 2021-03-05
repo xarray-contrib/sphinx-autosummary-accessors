@@ -59,9 +59,14 @@ class AccessorLevelDocumenter(Documenter):
                 parents = []
 
             # check that we actually got a valid module
+            # note: this will still result in incorrect results if mod_cls describes a
+            # existing (but different) module.
             try:
-                import_module(modname)
-            except ImportError:
+                module = import_module(modname)
+                cls = module
+                for parent in parents:
+                    cls = getattr(cls, parent)
+            except (ImportError, AttributeError):
                 parents.insert(0, modname)
                 modname = None
 
