@@ -66,7 +66,7 @@ and
 
 .. literalinclude:: examples.rst
    :language: rst
-   :lines: 79-83
+   :lines: 73-77
 
 become:
 
