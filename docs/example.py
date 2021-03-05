@@ -37,7 +37,7 @@ class TestAccessor:
         self._obj = obj
 
     def __call__(self, other):
-        """ check for equality
+        """check for equality
 
         Parameters
         ----------
@@ -57,7 +57,7 @@ class TestAccessor:
         return self.multiply(2)
 
     def multiply(self, factor):
-        """ multiply data with a factor
+        """multiply data with a factor
 
         Parameters
         ----------
@@ -66,3 +66,22 @@ class TestAccessor:
         """
 
         return self._obj._data * factor
+
+
+class SubAccessor:
+    def __init__(self, obj):
+        self._obj = obj
+
+    def func(self, a):
+        """namespaced function"""
+        print(self._obj, a)
+
+
+@register_accessor("test2")
+class Test2Accessor:
+    """ an accessor of Example """
+
+    sub = CachedAccessor("sub", SubAccessor)
+
+    def __init__(self, obj):
+        self._obj = obj
