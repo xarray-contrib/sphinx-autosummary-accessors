@@ -8,7 +8,7 @@ on:
 
 jobs:
   linux:
-    name: sphinx v${{matrix-sphinx-version}} py${{matrix.python-version}}
+    name: "sphinx v${{matrix-sphinx-version}} py${{matrix.python-version}}"
     runs-on: ubuntu-latest
 
     strategy:
