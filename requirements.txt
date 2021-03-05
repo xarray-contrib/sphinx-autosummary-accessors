@@ -1,6 +1,6 @@
-sphinx
-packaging
+black
+flake8
 importlib-metadata; python_version < "3.8"
 isort
-flake8
-black
+packaging
+sphinx

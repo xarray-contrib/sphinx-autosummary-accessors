@@ -37,7 +37,7 @@ class TestAccessor:
         self._obj = obj
 
     def __call__(self, other):
-        """ check for equality
+        """check for equality
 
         Parameters
         ----------
@@ -57,7 +57,7 @@ class TestAccessor:
         return self.multiply(2)
 
     def multiply(self, factor):
-        """ multiply data with a factor
+        """multiply data with a factor
 
         Parameters
         ----------
