@@ -5,9 +5,6 @@ except ImportError:
 
 import pathlib
 
-import packaging
-import sphinx
-
 from . import autosummary
 from .documenters import (
     AccessorAttributeDocumenter,
@@ -38,10 +35,6 @@ def setup(app):
     app.add_autodocumenter(AccessorMethodDocumenter)
     app.add_autodocumenter(AccessorCallableDocumenter)
 
-    sphinx_version = packaging.version.parse(sphinx.__version__)
-    if sphinx_version >= packaging.version.parse("3.2"):
-        add_autosummary_create_documenter(autosummary.create_documenter_from_template)
-    elif sphinx_version >= packaging.version.parse("3.1"):
-        app.add_directive("autosummary", autosummary.CustomAutosummary, override=True)
+    add_autosummary_create_documenter(autosummary.create_documenter_from_template)
 
     return {"version": __version__, "parallel_read_safe": True}
