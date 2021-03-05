@@ -1,4 +1,3 @@
-import sphinx
 from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
 from sphinx.ext.autodoc.importer import import_module
 
@@ -70,10 +69,7 @@ class AccessorLevelDocumenter(Documenter):
             if not modname:
                 modname = self.env.temp_data.get("autodoc:module")
             if not modname:
-                if sphinx.__version__ > "1.3":
-                    modname = self.env.ref_context.get("py:module")
-                else:
-                    modname = self.env.temp_data.get("py:module")
+                modname = self.env.ref_context.get("py:module")
             # ... else, it stays None, which means invalid
         return modname, parents + [base]
 
