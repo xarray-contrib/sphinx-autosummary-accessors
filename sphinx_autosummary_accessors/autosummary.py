@@ -4,9 +4,7 @@ from sphinx.ext.autosummary import Autosummary, generate
 
 directives_re = re.compile(r"^\.\. ([^:]+):: (.+)$", re.MULTILINE)
 
-original_create_documenter = getattr(
-    Autosummary, "create_documenter", lambda *args: None
-)
+original_create_documenter = Autosummary.create_documenter
 
 
 def extract_documenter(content):
