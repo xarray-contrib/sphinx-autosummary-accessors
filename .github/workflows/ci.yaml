@@ -25,6 +25,14 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: cache pip
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: pip-py${{ matrix.python-version }}
+          restore-keys: |
+            pip-py${{ matrix.python-version }}
+
       - name: upgrade pip
         run: python -m pip install --upgrade pip setuptools wheel
 
