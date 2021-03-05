@@ -1,0 +1,44 @@
+name: Nightly CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: '0 0 0 * *'
+
+jobs:
+  linux:
+    name: upstream-dev
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout the repository
+        uses: actions/checkout@v2
+
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: upgrade pip
+        run: python -m pip install --upgrade pip
+
+      - name: install sphinx
+        run: |
+          python -m pip install "git+https://github.com/sphinx-doc/sphinx"
+
+      - name: install other dependencies
+        run: python -m pip install -r docs/requirements.txt
+
+      - name: install the extension
+        run: python -m pip install .
+
+      - name: show versions
+        run: python -m pip list
+
+      - name: build the documentation
+        run: |
+          cd docs
+          python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html
