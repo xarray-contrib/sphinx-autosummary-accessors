@@ -2,13 +2,14 @@ import re
 
 from sphinx.ext.autosummary import Autosummary, generate
 
+directives_re = re.compile(r"^\.\. ([^:]+):: (.+)$", re.MULTILINE)
+
 original_create_documenter = getattr(
     Autosummary, "create_documenter", lambda *args: None
 )
 
 
 def extract_documenter(content):
-    directives_re = re.compile(r"^\.\. ([^:]+):: (.+)$", re.MULTILINE)
     matches = directives_re.findall(content)
     (_, modname), (directive_name, name) = matches
 
