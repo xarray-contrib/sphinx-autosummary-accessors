@@ -1,5 +1,5 @@
-import sphinx
 from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
+from sphinx.ext.autodoc.importer import import_module
 
 
 class AccessorDocumenter(MethodDocumenter):
@@ -51,20 +51,30 @@ class AccessorLevelDocumenter(Documenter):
                 # ... if still None, there's no way to know
                 if mod_cls is None:
                     return None, []
-            # HACK: this is added in comparison to ClassLevelDocumenter
-            # mod_cls still exists of class.accessor, so an extra
-            # rpartition is needed
-            modname, _, accessor = mod_cls.rpartition(".")
-            modname, _, cls = modname.rpartition(".")
-            parents = [cls, accessor]
+
+            if "." in mod_cls:
+                modname, *parents = mod_cls.split(".")
+            else:
+                modname = mod_cls
+                parents = []
+
+            # check that we actually got a valid module
+            # note: this will still result in incorrect results if mod_cls describes a
+            # existing (but different) module.
+            try:
+                module = import_module(modname)
+                cls = module
+                for parent in parents:
+                    cls = getattr(cls, parent)
+            except (ImportError, AttributeError):
+                parents.insert(0, modname)
+                modname = None
+
             # if the module name is still missing, get it like above
             if not modname:
                 modname = self.env.temp_data.get("autodoc:module")
             if not modname:
-                if sphinx.__version__ > "1.3":
-                    modname = self.env.ref_context.get("py:module")
-                else:
-                    modname = self.env.temp_data.get("py:module")
+                modname = self.env.ref_context.get("py:module")
             # ... else, it stays None, which means invalid
         return modname, parents + [base]
 

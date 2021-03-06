@@ -12,7 +12,7 @@ Consider the accessor class:
 
 .. literalinclude:: example.py
    :language: python
-   :lines: 30-
+   :lines: 32-68
 
 for a class named :py:class:`Example`:
 
@@ -55,3 +55,23 @@ becomes:
    :template: autosummary/accessor_callable.rst
 
    Example.test
+
+Methods on nested accessors can be documented, too:
+
+.. literalinclude:: example.py
+   :language: python
+   :lines: 71-86
+
+and
+
+.. literalinclude:: examples.rst
+   :language: rst
+   :lines: 73-77
+
+become:
+
+.. autosummary::
+   :toctree: generated/
+   :template: autosummary/accessor_method.rst
+
+   Example.test2.sub.func

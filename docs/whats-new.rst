@@ -4,6 +4,7 @@ What's new
 v0.2 (unreleased)
 -----------------
 - document the proper release methods (:pull:`20`)
+- support nested accessors (:pull:`22`)
 - drop support for ``sphinx<3.2`` (:pull:`25`)
 
 v0.1.2 (2020-08-08)
