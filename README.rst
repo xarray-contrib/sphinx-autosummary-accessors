@@ -22,8 +22,35 @@ code.
 
 To avoid even more duplicated code, and to make it easier for projects
 to document their custom accessors, this project aims to provide this
-functionality by way of a ``sphinx`` extension. Once it is finished,
-using it should be (almost) as simple as adding ``"accessors"`` to
-``extensions`` in the project's ``conf.py``.
+functionality by way of a ``sphinx`` extension.
 
 Most of the code was adapted from ``pandas``.
+
+Usage
+=====
+Using it should be as simple as adding
+
+.. code:: python
+
+   import sphinx_autosummary_accessors
+
+   extensions = [
+       ...,
+       "sphinx_autosummary_accessors",
+   ]
+   templates = ["_templates", ..., sphinx_autosummary_accessors.template_path]
+
+to your ``conf.py`` and using the appropriate template:
+
+.. code:: rst
+
+   .. autosummary::
+      :template: autosummary/accessor_method.rst
+
+      Example.test.multiply
+
+Documentation
+=============
+For more information and examples, see the `documentation`_.
+
+.. _documentation: https://sphinx-autosummary-accessors.readthedocs.io
