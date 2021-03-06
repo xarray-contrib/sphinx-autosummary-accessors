@@ -1,6 +1,10 @@
 What's new
 ==========
 
+v0.3 (*unreleased*)
+-------------------
+
+
 v0.2 (2021-03-06)
 -----------------
 - document the proper release methods (:pull:`20`)
