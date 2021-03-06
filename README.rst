@@ -9,21 +9,48 @@ sphinx-autosummary-accessors
    :target: https://sphinx-autosummary-accessors.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-A ``sphinx`` extension to properly document
-`pandas <https://github.com/pandas-dev/pandas>`_ or
-`xarray <https://github.com/pydata/xarray>`_ accessors.
+A ``sphinx`` extension to properly document `pandas`_ or `xarray`_ accessors.
 
-``autosummary`` is able to create summary and object pages for objects
-and their methods, but it doesn't work well with accessor styled
-properties and methods (``obj.accessor.attribute``). ``pandas`` has
-accessor documentation built using ``autosummary`` templates, which
-``xarray`` recently adopted by copying the templates and all related
-code.
+``sphinx.ext.autosummary`` is able to create summary and object pages for objects and
+their methods, but it doesn't work well with accessor styled properties and methods
+(``obj.accessor.attribute``). ``pandas`` has accessor documentation built using
+``sphinx.ext.autosummary`` templates, which ``xarray`` recently adopted by copying the
+templates and all related code.
 
-To avoid even more duplicated code, and to make it easier for projects
-to document their custom accessors, this project aims to provide this
-functionality by way of a ``sphinx`` extension. Once it is finished,
-using it should be (almost) as simple as adding ``"accessors"`` to
-``extensions`` in the project's ``conf.py``.
+To avoid even more duplicated code, and to make it easier for projects to document their
+custom accessors, this project aims to provide this functionality by way of a `sphinx`_
+extension.
 
 Most of the code was adapted from ``pandas``.
+
+Usage
+=====
+Using it should be as simple as adding
+
+.. code:: python
+
+   import sphinx_autosummary_accessors
+
+   extensions = [
+       ...,
+       "sphinx_autosummary_accessors",
+   ]
+   templates = ["_templates", ..., sphinx_autosummary_accessors.template_path]
+
+to your ``conf.py`` and using the appropriate template:
+
+.. code:: rst
+
+   .. autosummary::
+      :template: autosummary/accessor_method.rst
+
+      Example.test.multiply
+
+Documentation
+=============
+For more information and examples, see the `documentation`_.
+
+.. _pandas: https://github.com/pandas-dev/pandas
+.. _xarray: https://github.com/pydata/xarray
+.. _sphinx: https://github.com/sphinx-doc/sphinx
+.. _documentation: https://sphinx-autosummary-accessors.readthedocs.io
