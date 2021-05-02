@@ -14,7 +14,7 @@ class CachedAccessor:
 
 
 class Example:
-    """ test class """
+    """test class"""
 
     def __init__(self, data):
         self._data = data
@@ -31,7 +31,7 @@ def register_accessor(name):
 
 @register_accessor("test")
 class TestAccessor:
-    """ an accessor of Example """
+    """an accessor of Example"""
 
     def __init__(self, obj):
         self._obj = obj
@@ -53,7 +53,7 @@ class TestAccessor:
 
     @property
     def double(self):
-        """ double the data """
+        """double the data"""
         return self.multiply(2)
 
     def multiply(self, factor):
@@ -79,7 +79,7 @@ class SubAccessor:
 
 @register_accessor("test2")
 class Test2Accessor:
-    """ an accessor of Example """
+    """an accessor of Example"""
 
     sub = CachedAccessor("sub", SubAccessor)
 
