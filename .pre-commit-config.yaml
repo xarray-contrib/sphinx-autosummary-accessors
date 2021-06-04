@@ -1,21 +1,21 @@
 # https://pre-commit.com/
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
+    rev: v4.0.1
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: requirements-txt-fixer
       - id: check-merge-conflict
   - repo: https://github.com/pycqa/isort
-    rev: 5.7.0
+    rev: 5.8.0
     hooks:
       - id: isort
   - repo: https://github.com/python/black
-    rev: 20.8b1
+    rev: 21.5b1
     hooks:
       - id: black
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.4
+    rev: 3.9.2
     hooks:
       - id: flake8

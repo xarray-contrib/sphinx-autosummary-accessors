@@ -3,7 +3,7 @@ What's new
 
 v0.3 (*unreleased*)
 -------------------
-
+- don't fail on options which are not parameters to the render function (:pull:`38`)
 
 v0.2 (2021-03-06)
 -----------------
