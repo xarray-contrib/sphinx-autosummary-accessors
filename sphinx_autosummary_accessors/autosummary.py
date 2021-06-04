@@ -20,12 +20,11 @@ def extract_documenter(content):
 def create_documenter_from_template(autosummary, app, obj, parent, full_name):
     real_name = ".".join(full_name.split("::"))
 
-    options = autosummary.options.copy()
-    template_name = options.pop("template", None)
+    options = autosummary.options
+    template_name = options.get("template", None)
     if template_name is None:
         return original_create_documenter(autosummary, app, obj, parent, full_name)
 
-    options.pop("toctree", None)
     options["imported_members"] = options.get("imported_members", False)
     options["recursive"] = options.get("recursive", False)
 
