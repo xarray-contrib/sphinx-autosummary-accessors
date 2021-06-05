@@ -5,6 +5,7 @@ v0.3 (*unreleased*)
 -------------------
 - don't fail on options which are not parameters to the render function (:pull:`38`)
 - drop support for python 3.6 (:pull:`39`)
+- drop support for ``sphinx=3.2`` and start testing ``sphinx=4.0`` (:pull:`40`)
 
 v0.2 (2021-03-06)
 -----------------
