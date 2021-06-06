@@ -1,7 +1,7 @@
 What's new
 ==========
 
-v0.3 (*unreleased*)
+v0.2.1 (2021-06-06)
 -------------------
 - don't fail on options which are not parameters to the render function (:pull:`38`)
 - drop support for python 3.6 (:pull:`39`)
