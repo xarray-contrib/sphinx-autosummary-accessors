@@ -22,4 +22,4 @@ jobs:
         key: pip-py3.8
         restore-keys: |
           pip-
-    - uses: pre-commit/action@v2.0.0
+    - uses: pre-commit/action@v2.0.3
