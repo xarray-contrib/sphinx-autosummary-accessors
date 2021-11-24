@@ -35,7 +35,7 @@ Using it should be as simple as adding
        ...,
        "sphinx_autosummary_accessors",
    ]
-   templates = ["_templates", ..., sphinx_autosummary_accessors.template_path]
+   templates = ["_templates", ..., sphinx_autosummary_accessors.templates_path]
 
 to your ``conf.py`` and using the appropriate template:
 
