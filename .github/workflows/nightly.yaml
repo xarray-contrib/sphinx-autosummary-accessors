@@ -115,7 +115,7 @@ jobs:
         shopt -s globstar
         python .github/workflows/format-report.py logs/**/*-log sphinx-log.txt
     - name: Report failures
-      uses: actions/github-script@v4.1
+      uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
