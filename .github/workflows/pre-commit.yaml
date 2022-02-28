@@ -22,7 +22,7 @@ jobs:
             ~/.cache/pip
           key: ${{ runner.os }}-pre-commit-autoupdate
       - name: setup python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
       - name: upgrade pip
         run: python -m pip install --upgrade pip
       - name: install dependencies
