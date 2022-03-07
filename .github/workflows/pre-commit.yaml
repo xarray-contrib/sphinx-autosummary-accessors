@@ -13,7 +13,7 @@ jobs:
     if: github.repository == 'xarray-contrib/sphinx-autosummary-accessors'
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache pip and pre-commit
         uses: actions/cache@v2
         with:
