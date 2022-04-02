@@ -24,7 +24,7 @@ def create_documenter_from_template(autosummary, app, obj, parent, full_name):
     template_name = options.get("template", None)
     if template_name is None:
         return original_create_documenter(autosummary, app, obj, parent, full_name)
-    elif 'accessor' not in template_name:
+    elif "accessor" not in template_name:
         return original_create_documenter(autosummary, app, obj, parent, full_name)
 
     imported_members = options.get("imported_members", False)
