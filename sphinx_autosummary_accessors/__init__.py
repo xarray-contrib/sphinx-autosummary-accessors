@@ -4,13 +4,13 @@ except ImportError:
     from importlib_metadata import version
 
 from . import autosummary
-from .autosummary import templates_path  # noqa: F401
 from .documenters import (
     AccessorAttributeDocumenter,
     AccessorCallableDocumenter,
     AccessorDocumenter,
     AccessorMethodDocumenter,
 )
+from .templates import templates_path  # noqa: F401
 
 try:
     __version__ = version("sphinx-autosummary-accessors")
