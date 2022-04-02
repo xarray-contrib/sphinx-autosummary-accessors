@@ -2,6 +2,8 @@ import re
 
 from sphinx.ext.autosummary import Autosummary, generate
 
+from .templates import known_templates
+
 directives_re = re.compile(r"^\.\. ([^:]+):: (.+)$", re.MULTILINE)
 
 original_create_documenter = Autosummary.create_documenter
@@ -22,9 +24,7 @@ def create_documenter_from_template(autosummary, app, obj, parent, full_name):
 
     options = autosummary.options
     template_name = options.get("template", None)
-    if template_name is None:
-        return original_create_documenter(autosummary, app, obj, parent, full_name)
-    elif "accessor" not in template_name:
+    if template_name is None or template_name not in known_templates:
         return original_create_documenter(autosummary, app, obj, parent, full_name)
 
     imported_members = options.get("imported_members", False)
