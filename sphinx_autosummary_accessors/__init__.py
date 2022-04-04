@@ -3,8 +3,6 @@ try:
 except ImportError:
     from importlib_metadata import version
 
-import pathlib
-
 from . import autosummary
 from .documenters import (
     AccessorAttributeDocumenter,
@@ -12,13 +10,12 @@ from .documenters import (
     AccessorDocumenter,
     AccessorMethodDocumenter,
 )
+from .templates import templates_path  # noqa: F401
 
 try:
     __version__ = version("sphinx-autosummary-accessors")
 except Exception:
     __version__ = "999"
-
-templates_path = str(pathlib.Path(__file__).parent / "templates")
 
 
 def add_autosummary_create_documenter(func):

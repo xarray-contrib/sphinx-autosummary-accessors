@@ -75,3 +75,17 @@ become:
    :template: autosummary/accessor_method.rst
 
    Example.test2.sub.func
+
+Different templates still work:
+
+.. literalinclude:: examples.rst
+   :language: rst
+   :lines: 87-91
+
+becomes:
+
+.. autosummary::
+   :toctree: generated/
+   :template: custom-template.rst
+
+   TestAccessor
