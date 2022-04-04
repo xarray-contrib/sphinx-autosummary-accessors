@@ -3,7 +3,7 @@ What's new
 
 v0.3 (*unreleased*)
 -------------------
-
+- skip unknown templates (:issue:`66`, :pull:`67`)
 
 v0.2.1 (2021-06-06)
 -------------------
