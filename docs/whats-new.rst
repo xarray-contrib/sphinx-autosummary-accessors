@@ -1,6 +1,10 @@
 What's new
 ==========
 
+(*unreleased*)
+--------------
+
+
 2022.04.0 (2022-04-04)
 ----------------------
 - skip unknown templates (:issue:`66`, :pull:`67`)
