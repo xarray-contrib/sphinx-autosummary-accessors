@@ -93,8 +93,8 @@ autosummary_generate = True
 # extlinks
 base_url = "https://github.com/xarray-contrib/sphinx-autosummary-accessors"
 extlinks = {
-    "issue": (f"{base_url}/issues/%s", "GH"),
-    "pull": (f"{base_url}/pull/%s", "PR"),
+    "issue": (f"{base_url}/issues/%s", "GH %s"),
+    "pull": (f"{base_url}/pull/%s", "PR %s"),
 }
 
 # napoleon
