@@ -3,7 +3,9 @@ What's new
 
 (*unreleased*)
 --------------
-
+- add official support for python 3.11 and `sphinx>=5.0` (:pull:`87`)
+- change the policy to only actively support the last minor release of older major versions of `sphinx`.
+  Currently supported versions are now: `3.5`, `4.5`, `sphinx>=5.0` (:pull:`87`).
 
 2022.04.0 (2022-04-04)
 ----------------------
