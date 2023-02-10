@@ -80,7 +80,6 @@ class AccessorLevelDocumenter(Documenter):
 
 
 class AccessorAttributeDocumenter(AccessorLevelDocumenter, AttributeDocumenter):
-
     objtype = "accessorattribute"
     directivetype = "attribute"
 
@@ -89,7 +88,6 @@ class AccessorAttributeDocumenter(AccessorLevelDocumenter, AttributeDocumenter):
 
 
 class AccessorMethodDocumenter(AccessorLevelDocumenter, MethodDocumenter):
-
     objtype = "accessormethod"
     directivetype = "method"
 
