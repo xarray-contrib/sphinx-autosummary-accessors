@@ -29,7 +29,7 @@ fallback_version = "999"
 
 [tool.isort]
 profile = "black"
-skip_gitignore = true
-force_to_top = true
+skip_gitignore = "true"
+force_to_top = "true"
 default_section = "THIRDPARTY"
 known_first_party = "sphinx_autosummary_accessors"
