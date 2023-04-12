@@ -1,5 +1,35 @@
+[project]
+name = "sphinx-autosummary-accessors"
+license = {text = "MIT"}
+description = "sphinx autosummary extension to properly format pandas or xarray accessors"
+authors = [
+    {name = "Justus Magin", email = "keewis@posteo.de"}
+]
+readme = "README.rst"
+requires-python = ">=3.8"
+dependencies = [
+    "sphinx >= 3.5",
+]
+dynamic = ["version"]
+
+[project.urls]
+Home = "https://github.com/xarray-contrib/sphinx-autosummary-accessors"
+Documentation = "https://sphinx-autosummary-accessors.readthedocs.io/en/stable"
+
+
 [build-system]
-requires = ["setuptools>=42", "wheel", "setuptools-scm[toml]>=3.4"]
+requires = ["setuptools>=64", "setuptools-scm[toml]>=7.0"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.packages.find]
+include = ["sphinx_autosummary_accessors", "sphinx_autosummary_accessors.templates"]
+
 [tool.setuptools_scm]
+fallback_version = "999"
+
+[tool.isort]
+profile = "black"
+skip_gitignore = true
+force_to_top = true
+default_section = "THIRDPARTY"
+known_first_party = "sphinx_autosummary_accessors"
