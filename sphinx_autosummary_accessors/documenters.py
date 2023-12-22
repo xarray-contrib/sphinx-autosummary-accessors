@@ -2,23 +2,6 @@ from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
 from sphinx.ext.autodoc.importer import import_module
 
 
-class AccessorDocumenter(MethodDocumenter):
-    """
-    Specialized Documenter subclass for accessors.
-    """
-
-    objtype = "accessor"
-    directivetype = "method"
-
-    # lower than MethodDocumenter so this is not chosen for normal methods
-    priority = 0.6
-
-    def format_signature(self):
-        # this method gives an error/warning for the accessors, therefore
-        # overriding it (accessor has no arguments)
-        return ""
-
-
 class AccessorLevelDocumenter(Documenter):
     """
     Specialized Documenter subclass for objects on accessor level (methods,
@@ -77,6 +60,23 @@ class AccessorLevelDocumenter(Documenter):
                 modname = self.env.ref_context.get("py:module")
             # ... else, it stays None, which means invalid
         return modname, parents + [base]
+
+
+class AccessorDocumenter(AccessorLevelDocumenter, MethodDocumenter):
+    """
+    Specialized Documenter subclass for accessors.
+    """
+
+    objtype = "accessor"
+    directivetype = "method"
+
+    # lower than MethodDocumenter so this is not chosen for normal methods
+    priority = 0.6
+
+    def format_signature(self):
+        # this method gives an error/warning for the accessors, therefore
+        # overriding it (accessor has no arguments)
+        return ""
 
 
 class AccessorAttributeDocumenter(AccessorLevelDocumenter, AttributeDocumenter):
