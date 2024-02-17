@@ -1,6 +1,6 @@
 from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
 from sphinx.ext.autodoc.importer import import_module
-
+from sphinx.util import inspect
 
 class AccessorLevelDocumenter(Documenter):
     """
@@ -87,7 +87,32 @@ class AccessorAttributeDocumenter(AccessorLevelDocumenter, AttributeDocumenter):
     priority = 0.6
 
 
-class AccessorMethodDocumenter(AccessorLevelDocumenter, MethodDocumenter):
+class SlottedParentMethodDocumenter(MethodDocumenter):
+    def import_object(self, raiseerror: bool = False) -> bool:
+        """Copy pasted from MethodDocumenter to handle parent with __slots__"""
+        ret = super(MethodDocumenter, self).import_object(raiseerror)
+        if not ret:
+            return ret
+
+        # handle case when parent is instance with __slots__
+        # otherwise autodoc errors, because it expects parents to have __dict__
+        if hasattr(self.parent, '__slots__') and not isinstance(self.parent, type):
+            self.parent = self.parent.__class__
+
+        # to distinguish classmethod/staticmethod
+        obj = self.parent.__dict__.get(self.object_name)
+
+        if obj is None:
+            obj = self.object
+
+        if (inspect.isclassmethod(obj) or
+                inspect.isstaticmethod(obj, cls=self.parent, name=self.object_name)):
+            # document class and static members before ordinary ones
+            self.member_order = self.member_order - 1
+
+        return ret
+
+class AccessorMethodDocumenter(AccessorLevelDocumenter, SlottedParentMethodDocumenter):
     objtype = "accessormethod"
     directivetype = "method"
 
@@ -95,7 +120,7 @@ class AccessorMethodDocumenter(AccessorLevelDocumenter, MethodDocumenter):
     priority = 0.6
 
 
-class AccessorCallableDocumenter(AccessorLevelDocumenter, MethodDocumenter):
+class AccessorCallableDocumenter(AccessorLevelDocumenter, SlottedParentMethodDocumenter):
     """
     This documenter lets us removes .__call__ from the method signature for
     callable accessors like Series.plot
