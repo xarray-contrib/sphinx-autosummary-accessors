@@ -2,6 +2,7 @@ from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
 from sphinx.ext.autodoc.importer import import_module
 from sphinx.util import inspect
 
+
 class AccessorLevelDocumenter(Documenter):
     """
     Specialized Documenter subclass for objects on accessor level (methods,
@@ -96,7 +97,7 @@ class SlottedParentMethodDocumenter(MethodDocumenter):
 
         # handle case when parent is instance with __slots__
         # otherwise autodoc errors, because it expects parents to have __dict__
-        if hasattr(self.parent, '__slots__') and not isinstance(self.parent, type):
+        if hasattr(self.parent, "__slots__") and not isinstance(self.parent, type):
             self.parent = self.parent.__class__
 
         # to distinguish classmethod/staticmethod
@@ -105,12 +106,14 @@ class SlottedParentMethodDocumenter(MethodDocumenter):
         if obj is None:
             obj = self.object
 
-        if (inspect.isclassmethod(obj) or
-                inspect.isstaticmethod(obj, cls=self.parent, name=self.object_name)):
+        if inspect.isclassmethod(obj) or inspect.isstaticmethod(
+            obj, cls=self.parent, name=self.object_name
+        ):
             # document class and static members before ordinary ones
             self.member_order = self.member_order - 1
 
         return ret
+
 
 class AccessorMethodDocumenter(AccessorLevelDocumenter, SlottedParentMethodDocumenter):
     objtype = "accessormethod"
@@ -120,7 +123,9 @@ class AccessorMethodDocumenter(AccessorLevelDocumenter, SlottedParentMethodDocum
     priority = 0.6
 
 
-class AccessorCallableDocumenter(AccessorLevelDocumenter, SlottedParentMethodDocumenter):
+class AccessorCallableDocumenter(
+    AccessorLevelDocumenter, SlottedParentMethodDocumenter
+):
     """
     This documenter lets us removes .__call__ from the method signature for
     callable accessors like Series.plot
