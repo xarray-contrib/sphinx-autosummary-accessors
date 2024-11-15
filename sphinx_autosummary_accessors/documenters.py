@@ -108,4 +108,4 @@ class AccessorCallableDocumenter(AccessorLevelDocumenter, MethodDocumenter):
     priority = 0.5
 
     def format_name(self):
-        return MethodDocumenter.format_name(self).rstrip(".__call__")
+        return MethodDocumenter.format_name(self).removesuffix(".__call__")
