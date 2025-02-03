@@ -49,6 +49,9 @@ jobs:
 
       - name: install sphinx
         run: |
+          if [[ "${{matrix.sphinx-version}}" < "6.0" ]]; then
+            python -m pip install "sphinx_rtd_theme<3.0"
+          fi
           python -m pip install "sphinx==${{matrix.sphinx-version}}"
 
       - name: install the extension
