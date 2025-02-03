@@ -17,10 +17,14 @@ jobs:
         python-version: ["3.9", "3.12", "3.13"]
         sphinx-version: ["5.3", "6.2", "7.3", "7.4", "8.0", "8.1"]
         exclude:
+          # sphinx>=8 requires at least python 3.10
           - python-version: "3.9"
             sphinx-version: "8.0"
           - python-version: "3.9"
             sphinx-version: "8.1"
+          # sphinx<6.2 uses imghdr, which was removed in python 3.13
+          - python-version: "3.13"
+            sphinx-version: "5.3"
 
     steps:
       - name: checkout the repository
@@ -44,15 +48,15 @@ jobs:
       - name: upgrade pip
         run: python -m pip install --upgrade pip
 
-      - name: install sphinx
-        run: |
-          python -m pip install "sphinx==${{matrix.sphinx-version}}"
-          if [[ "${{matrix.sphinx-version}}" < "4.0" ]]; then
-              python -m pip install "jinja2<3.1" "docutils<0.18"
-          fi
-
       - name: install other dependencies
         run: python -m pip install -r ci/requirements.txt
+
+      - name: install sphinx
+        run: |
+          if [[ "${{matrix.sphinx-version}}" < "6.0" ]]; then
+            python -m pip install "sphinx_rtd_theme<3.0"
+          fi
+          python -m pip install "sphinx==${{matrix.sphinx-version}}"
 
       - name: install the extension
         run: python -m pip install .
