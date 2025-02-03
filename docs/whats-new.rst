@@ -1,6 +1,10 @@
 What's new
 ==========
 
+2025.02.0 (*unreleased*)
+------------------------
+- drop support for python 3.8 (:pull:`135`)
+
 2023.04.0 (2022-04-12)
 ----------------------
 - add official support for python 3.11 and `sphinx>=5.0` (:pull:`87`)
