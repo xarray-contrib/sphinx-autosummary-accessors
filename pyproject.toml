@@ -6,12 +6,11 @@ authors = [
   { name = "Justus Magin", email = "keewis@posteo.de" },
 ]
 readme = "README.rst"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
   "License :: OSI Approved :: MIT",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -19,7 +18,7 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-  "sphinx >= 3.5",
+  "sphinx >= 5.3",
 ]
 dynamic = ["version"]
 
