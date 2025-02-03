@@ -2,11 +2,11 @@ name: Nightly CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 jobs:
   detect-ci-trigger:
@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           # need to fetch all tags to get a correct version
-          fetch-depth: 0  # fetch all branches and tags
+          fetch-depth: 0 # fetch all branches and tags
 
       - name: setup python
         uses: actions/setup-python@v5
@@ -97,72 +97,72 @@ jobs:
       && github.repository == 'xarray-contrib/sphinx-autosummary-accessors'
       && needs.upstream-dev.outputs.artifacts_availability == 'true'
     steps:
-    - name: checkout the repository
-      uses: actions/checkout@v4
-    - name: setup python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.x"
-    - uses: actions/download-artifact@v4
-      with:
-        path: /tmp/workspace/logs
-    - name: Move all log files into a single directory
-      run: |
-        rsync -a /tmp/workspace/logs/output-*/ ./logs
-        ls -R ./logs
-    - name: Parse logs
-      run: |
-        shopt -s globstar
-        python .github/workflows/format-report.py logs/**/*-log sphinx-log.txt
-    - name: Report failures
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const fs = require('fs');
-          const sphinx_logs = fs.readFileSync('sphinx-logs.txt', 'utf8');
-          const title = "⚠️ Nightly upstream-dev CI failed ⚠️"
-          const workflow_url = `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
-          const issue_body = `[Workflow Run URL](${workflow_url})\n${sphinx_logs}`
+      - name: checkout the repository
+        uses: actions/checkout@v4
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - uses: actions/download-artifact@v4
+        with:
+          path: /tmp/workspace/logs
+      - name: Move all log files into a single directory
+        run: |
+          rsync -a /tmp/workspace/logs/output-*/ ./logs
+          ls -R ./logs
+      - name: Parse logs
+        run: |
+          shopt -s globstar
+          python .github/workflows/format-report.py logs/**/*-log sphinx-log.txt
+      - name: Report failures
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const sphinx_logs = fs.readFileSync('sphinx-logs.txt', 'utf8');
+            const title = "⚠️ Nightly upstream-dev CI failed ⚠️"
+            const workflow_url = `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`
+            const issue_body = `[Workflow Run URL](${workflow_url})\n${sphinx_logs}`
 
-          // Run GraphQL query against GitHub API to find the most recent open issue used for reporting failures
-          const query = `query($owner:String!, $name:String!, $creator:String!, $label:String!){
-            repository(owner: $owner, name: $name) {
-              issues(first: 1, states: OPEN, filterBy: {createdBy: $creator, labels: [$label]}, orderBy: {field: CREATED_AT, direction: DESC}) {
-                edges {
-                  node {
-                    body
-                    id
-                    number
+            // Run GraphQL query against GitHub API to find the most recent open issue used for reporting failures
+            const query = `query($owner:String!, $name:String!, $creator:String!, $label:String!){
+              repository(owner: $owner, name: $name) {
+                issues(first: 1, states: OPEN, filterBy: {createdBy: $creator, labels: [$label]}, orderBy: {field: CREATED_AT, direction: DESC}) {
+                  edges {
+                    node {
+                      body
+                      id
+                      number
+                    }
                   }
                 }
               }
+            }`;
+
+            const variables = {
+                owner: context.repo.owner,
+                name: context.repo.repo,
+                label: 'CI',
+                creator: "github-actions[bot]"
             }
-          }`;
+            const result = await github.graphql(query, variables)
 
-          const variables = {
-              owner: context.repo.owner,
-              name: context.repo.repo,
-              label: 'CI',
-              creator: "github-actions[bot]"
-          }
-          const result = await github.graphql(query, variables)
-
-          // If no issue is open, create a new issue,
-          // else update the body of the existing issue.
-          if (result.repository.issues.edges.length === 0) {
-              github.rest.issues.create({
-                  owner: variables.owner,
-                  repo: variables.name,
-                  body: issue_body,
-                  title: title,
-                  labels: [variables.label]
-              })
-          } else {
-              github.rest.issues.update({
-                  owner: variables.owner,
-                  repo: variables.name,
-                  issue_number: result.repository.issues.edges[0].node.number,
-                  body: issue_body
-              })
-          }
+            // If no issue is open, create a new issue,
+            // else update the body of the existing issue.
+            if (result.repository.issues.edges.length === 0) {
+                github.rest.issues.create({
+                    owner: variables.owner,
+                    repo: variables.name,
+                    body: issue_body,
+                    title: title,
+                    labels: [variables.label]
+                })
+            } else {
+                github.rest.issues.update({
+                    owner: variables.owner,
+                    repo: variables.name,
+                    issue_number: result.repository.issues.edges[0].node.number,
+                    body: issue_body
+                })
+            }
