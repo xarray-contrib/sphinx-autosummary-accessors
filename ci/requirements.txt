@@ -1,4 +1,4 @@
-importlib-metadata; python_version < "3.8"
 packaging
 sphinx
 sphinx_rtd_theme
+tomli; python_version < "3.11"
