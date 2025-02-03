@@ -2,7 +2,7 @@ import re
 
 from sphinx.ext.autosummary import Autosummary, generate
 
-from .templates import known_templates
+from sphinx_autosummary_accessors.templates import known_templates
 
 directives_re = re.compile(r"^\.\. ([^:]+):: (.+)$", re.MULTILINE)
 
