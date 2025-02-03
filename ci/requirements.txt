@@ -1,3 +1,4 @@
+imghdr; python_version >= "3.13"
 packaging
 sphinx
 sphinx_rtd_theme
