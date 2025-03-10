@@ -51,7 +51,7 @@ if version.parse(sphinx.__version__) >= version.Version("8.2.0"):
             imported_members=imported_members,
             recursive=recursive,
             registry=registry,
-            events=autosummary.events,
+            events=autosummary.env.events,
             config=autosummary.env.config,
         )
 
