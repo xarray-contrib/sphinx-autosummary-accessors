@@ -51,6 +51,8 @@ if version.parse(sphinx.__version__) >= version.Version("8.2.0"):
             imported_members=imported_members,
             recursive=recursive,
             registry=registry,
+            events=autosummary.events,
+            config=autosummary.env.config,
         )
 
         documenter_name, real_name = extract_documenter(rendered)
