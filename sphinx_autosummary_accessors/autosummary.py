@@ -39,13 +39,13 @@ if version.parse(sphinx.__version__) >= version.Version("8.2.0"):
         recursive = options.get("recursive", False)
 
         context = {}
-        context.update(autosummary.app.config.autosummary_context)
+        context.update(autosummary.env.config.autosummary_context)
 
         rendered = generate.generate_autosummary_content(
             real_name,
             obj,
             parent,
-            template=generate.AutosummaryRenderer(autosummary.app),
+            template=generate.AutosummaryRenderer(autosummary.env.app),
             template_name=template_name,
             context=context,
             imported_members=imported_members,
