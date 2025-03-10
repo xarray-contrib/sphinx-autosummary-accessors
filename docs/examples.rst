@@ -10,9 +10,9 @@ Examples
 ========
 Consider the accessor class:
 
-.. literalinclude:: example.py
+.. literalinclude:: example/accessors.py
    :language: python
-   :lines: 32-68
+   :lines: 4-40
 
 for a class named :py:class:`Example`:
 
@@ -58,9 +58,9 @@ becomes:
 
 Methods on nested accessors can be documented, too:
 
-.. literalinclude:: example.py
+.. literalinclude:: example/accessors.py
    :language: python
-   :lines: 71-86
+   :lines: 43-59
 
 and
 
