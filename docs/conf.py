@@ -68,6 +68,11 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 master_doc = "index"
 suffix = ".rst"
 
+# temporarily supress warnings
+suppress_warnings = [
+    # emitted because we're trying to redirect to a absolute import path
+    "autosummary.import_cycle",
+]
 
 # -- Options for HTML output -------------------------------------------------
 
