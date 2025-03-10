@@ -31,3 +31,7 @@ repos:
     rev: 25.1.0
     hooks:
       - id: black
+  - repo: https://github.com/woodruffw/zizmor-pre-commit
+    rev: v1.4.1
+    hooks:
+      - id: zizmor

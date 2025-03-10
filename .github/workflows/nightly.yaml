@@ -8,6 +8,8 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
+permissions: {}
+
 jobs:
   detect-ci-trigger:
     name: detect upstream-dev ci trigger
@@ -21,6 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 2
+          persist-credentials: false
       - uses: xarray-contrib/ci-trigger@v1.2
         id: detect-trigger
         with:
@@ -52,6 +55,7 @@ jobs:
         with:
           # need to fetch all tags to get a correct version
           fetch-depth: 0 # fetch all branches and tags
+          persist-credentials: false
 
       - name: setup python
         uses: actions/setup-python@v5
@@ -96,9 +100,15 @@ jobs:
       && github.event_name == 'schedule'
       && github.repository == 'xarray-contrib/sphinx-autosummary-accessors'
       && needs.upstream-dev.outputs.artifacts_availability == 'true'
+
+    permissions:
+      issues: write
+
     steps:
       - name: checkout the repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - name: setup python
         uses: actions/setup-python@v5
         with:
