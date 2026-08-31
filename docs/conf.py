@@ -26,7 +26,6 @@ site.addsitedir(str(here.parent))
 
 import sphinx_autosummary_accessors  # isort:skip # noqa: F401
 
-
 # -- environment information -------------------------------------------------
 
 print(f"sys.path: {sys.path}")
