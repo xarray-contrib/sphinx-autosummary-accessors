@@ -7,24 +7,32 @@ on:
     branches: [main]
   schedule:
     - cron: "0 0 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: 3
 
 permissions: {}
 
 jobs:
   detect-ci-trigger:
     name: detect upstream-dev ci trigger
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     if: |
       github.repository == 'xarray-contrib/sphinx-autosummary-accessors'
       && (github.event_name == 'push' || github.event_name == 'pull_request')
     outputs:
       triggered: ${{ steps.detect-trigger.outputs.trigger-found }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 2
           persist-credentials: false
-      - uses: xarray-contrib/ci-trigger@10cd2bfec3484946a4058a421ddf9cfad101e715 # 1.2.1
+      - uses: xarray-contrib/ci-trigger@10cd2bfec3484946a4058a421ddf9cfad101e715 # v1.2.1
         id: detect-trigger
         with:
           keyword: "[test-upstream]"
@@ -38,27 +46,27 @@ jobs:
       always()
       && (
         github.event_name == 'schedule'
+        || github.event_name == 'workflow_dispatch'
         || needs.detect-ci-trigger.outputs.triggered == 'true'
       )
 
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.14"]
 
     outputs:
-      artifacts_availability: ${{ steps.status.outputs.ARTIFACTS_AVAILABLE }}
+      log-file: ${{ steps.log-path.outputs.log-file }}
 
     steps:
       - name: checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          # need to fetch all tags to get a correct version
-          fetch-depth: 0 # fetch all branches and tags
+          fetch-depth: 0
           persist-credentials: false
 
       - name: setup python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -66,8 +74,7 @@ jobs:
         run: python -m pip install --upgrade pip
 
       - name: install sphinx
-        run: |
-          python -m pip install "git+https://github.com/sphinx-doc/sphinx"
+        run: python -m pip install "git+https://github.com/sphinx-doc/sphinx"
 
       - name: install other dependencies
         run: python -m pip install -r ci/requirements.txt
@@ -79,104 +86,90 @@ jobs:
         run: python -m pip list
 
       - name: import sphinx_autosummary_accessors
-        run: |
-          python -c 'import sphinx_autosummary_accessors'
+        run: python -c 'import sphinx_autosummary_accessors'
+
+      - name: determine log path
+        id: log-path
+        run: echo "log-file=output-${{ matrix.python-version }}-log" >> "$GITHUB_OUTPUT"
 
       - name: build the documentation
+        env:
+          LOG_FILE: ${{ steps.log-path.outputs.log-file }}
         run: |
           set -euo pipefail
           cd docs
           python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html \
-          | tee output-${{ matrix.python-version }}-log || (
-            echo "ARTIFACTS_AVAILABLE=true" >> $GITHUB_OUTPUT && false
-          )
+            2>&1 | tee "../${LOG_FILE}"
+
+      - name: upload failure log
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: output-${{ matrix.python-version }}
+          path: ${{ steps.log-path.outputs.log-file }}
 
   report:
     name: Report
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     needs: upstream-dev
     if: |
       always()
+      && needs.upstream-dev.result == 'failure'
       && github.event_name == 'schedule'
       && github.repository == 'xarray-contrib/sphinx-autosummary-accessors'
-      && needs.upstream-dev.outputs.artifacts_availability == 'true'
 
     permissions:
       issues: write
 
     steps:
       - name: checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: setup python
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.x"
-      - uses: actions/download-artifact@v7
+
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           path: /tmp/workspace/logs
-      - name: Move all log files into a single directory
+
+      - name: move log files into a single directory
         run: |
-          rsync -a /tmp/workspace/logs/output-*/ ./logs
-          ls -R ./logs
-      - name: Parse logs
-        run: |
-          shopt -s globstar
-          python .github/workflows/format-report.py logs/**/*-log sphinx-log.txt
-      - name: Report failures
-        uses: actions/github-script@v8
+          mkdir -p logs
+          find /tmp/workspace/logs -type f -name 'output-*-log' -exec cp {} logs/ \;
+          ls -R logs
+
+      - name: parse logs
+        run: python .github/workflows/format-logs.py logs/output-*-log sphinx-log.txt
+
+      - name: report failures
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
         with:
           github-token: ${{ github.token }}
           script: |
             const fs = require("fs");
-            const sphinx_logs = fs.readFileSync("sphinx-logs.txt", "utf8");
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
             const title = "⚠️ Nightly upstream-dev CI failed ⚠️";
-            const workflow_url = `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
-            const issue_body = `[Workflow Run URL](${workflow_url})\n${sphinx_logs}`;
+            const workflowUrl = `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
+            const body = `[Workflow Run URL](${workflowUrl})\n${fs.readFileSync("sphinx-log.txt", "utf8")}`;
 
-            const variables = {
-              owner: context.repo.owner,
-              name: context.repo.repo,
-              label: "CI"
-              creator: "app/github-actions",
-              title: title,
-            };
+            const { data } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} is:issue is:open in:title "${title}"`,
+              per_page: 1,
+            });
 
-            const query_string = `repo:${variables.owner}/${variables.name} author:${variables.creator} label:${variables:label} is:open in:title ${variables.title}`;
-
-            // Run GraphQL query against GitHub API to find the most recent open issue used for reporting failures
-            const query = `query {
-              search(query: "${query_string}", type:ISSUE, first: 1) {
-                edges {
-                  node {
-                    ... on Issue {
-                      body
-                      id
-                      number
-                    }
-                  }
-                }
-              }
-            }`;
-
-            const result = await github.graphql(query);
-
-            // If no issue is open, create a new issue,
-            // else update the body of the existing issue.
-            if (result.repository.issues.edges.length === 0) {
-                github.rest.issues.create({
-                    owner: variables.owner,
-                    repo: variables.name,
-                    body: issue_body,
-                    title: title,
-                    labels: [variables.label]
-                });
+            if (data.items.length === 0) {
+              await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                body,
+                labels: ["CI"],
+              });
             } else {
-                github.rest.issues.update({
-                    owner: variables.owner,
-                    repo: variables.name,
-                    issue_number: result.repository.issues.edges[0].node.number,
-                    body: issue_body
-                });
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: data.items[0].number,
+                body,
+              });
             }

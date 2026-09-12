@@ -5,19 +5,30 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FORCE_COLOR: 3
 
 permissions: {}
 
 jobs:
   linux:
-    name: "sphinx v${{matrix.sphinx-version}} py${{matrix.python-version}}"
+    name: "sphinx v${{ matrix.sphinx-version }} py${{ matrix.python-version }}"
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.12", "3.13"]
+        python-version: ["3.9", "3.13"]
         sphinx-version: ["5.3", "6.2", "7.3", "7.4", "8.0", "8.1", "8.2"]
+        include:
+          - python-version: "3.14"
+            sphinx-version: "8.2"
         exclude:
           # sphinx>=8 requires at least python 3.10
           - python-version: "3.9"
@@ -32,18 +43,18 @@ jobs:
 
     steps:
       - name: checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
       - name: setup python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: cache pip
-        uses: actions/cache@v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/pip
           key: pip-py${{ matrix.python-version }}
@@ -58,10 +69,10 @@ jobs:
 
       - name: install sphinx
         run: |
-          if [[ "${{matrix.sphinx-version}}" < "6.0" ]]; then
+          if [[ "${{ matrix.sphinx-version }}" < "6.0" ]]; then
             python -m pip install "sphinx_rtd_theme<3.0"
           fi
-          python -m pip install "sphinx==${{matrix.sphinx-version}}"
+          python -m pip install "sphinx==${{ matrix.sphinx-version }}"
 
       - name: install the extension
         run: python -m pip install .
