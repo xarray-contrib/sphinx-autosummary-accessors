@@ -20,7 +20,7 @@ jobs:
     outputs:
       triggered: ${{ steps.detect-trigger.outputs.trigger-found }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 2
           persist-credentials: false
@@ -44,21 +44,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.12"]
+        python-version: ["3.14"]
 
     outputs:
       artifacts_availability: ${{ steps.status.outputs.ARTIFACTS_AVAILABLE }}
 
     steps:
       - name: checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # need to fetch all tags to get a correct version
           fetch-depth: 0 # fetch all branches and tags
           persist-credentials: false
 
       - name: setup python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -106,14 +106,14 @@ jobs:
 
     steps:
       - name: checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
       - name: setup python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: "3.x"
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           path: /tmp/workspace/logs
       - name: Move all log files into a single directory
@@ -125,7 +125,7 @@ jobs:
           shopt -s globstar
           python .github/workflows/format-report.py logs/**/*-log sphinx-log.txt
       - name: Report failures
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           github-token: ${{ github.token }}
           script: |
