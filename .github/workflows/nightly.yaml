@@ -80,11 +80,11 @@ jobs:
 
       - name: import sphinx_autosummary_accessors
         run: |
-          pixi run -e $ENV python -c 'import sphinx_autosummary_accessors'
+          pixi run --manifest-path ci/nightly -e $ENV python -c 'import sphinx_autosummary_accessors'
 
       - name: build the documentation
         run: |
-          ci/nightly/tee.sh "$LOGFILE" pixi run -e $ENV build-docs
+          ci/nightly/tee.sh "$LOGFILE" pixi run --manifest-path ci/nightly -e $ENV build-docs
           result=$?
 
           if [[ $result != 0 ]]; then
