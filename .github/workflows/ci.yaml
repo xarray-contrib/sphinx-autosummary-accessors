@@ -6,70 +6,45 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
   linux:
-    name: "sphinx v${{matrix.sphinx-version}} py${{matrix.python-version}}"
+    name: "${{ matrix.env }}"
+    if: ${{ github.repository_owner == 'xarray-contrib' }}
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.12", "3.13"]
-        sphinx-version: ["5.3", "6.2", "7.3", "7.4", "8.0", "8.1", "8.2"]
-        exclude:
-          # sphinx>=8 requires at least python 3.10
-          - python-version: "3.9"
-            sphinx-version: "8.0"
-          - python-version: "3.9"
-            sphinx-version: "8.1"
-          - python-version: "3.9"
-            sphinx-version: "8.2"
-          # sphinx<6.2 uses imghdr, which was removed in python 3.13
-          - python-version: "3.13"
-            sphinx-version: "5.3"
+        env:
+          - "s6py311"
+          - "s7py311"
+          - "s8py311"
+          - "s9py311"
+          - "s8py314"
+          - "s9py314"
+          - "s9py315"
 
     steps:
       - name: checkout the repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: setup python
-        uses: actions/setup-python@v6
+      - name: setup pixi
+        uses: prefix-dev/setup-pixi@9dabb60412d3d2d967a8d682f7ce01317af40514 # v0.11.0
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: cache pip
-        uses: actions/cache@v5
-        with:
-          path: ~/.cache/pip
-          key: pip-py${{ matrix.python-version }}
-          restore-keys: |
-            pip-py${{ matrix.python-version }}
-
-      - name: upgrade pip
-        run: python -m pip install --upgrade pip
-
-      - name: install other dependencies
-        run: python -m pip install -r ci/requirements.txt
-
-      - name: install sphinx
-        run: |
-          if [[ "${{matrix.sphinx-version}}" < "6.0" ]]; then
-            python -m pip install "sphinx_rtd_theme<3.0"
-          fi
-          python -m pip install "sphinx==${{matrix.sphinx-version}}"
-
-      - name: install the extension
-        run: python -m pip install .
-
-      - name: show versions
-        run: python -m pip list
+          environments: ${{ matrix.env }}
+          cache: true
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
 
       - name: build the documentation
-        run: |
-          cd docs
-          python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html
+        env:
+          ENV: ${{ matrix.env }}
+        run: pixi run -e $ENV build-docs
