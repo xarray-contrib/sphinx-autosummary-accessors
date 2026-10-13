@@ -1,6 +1,6 @@
 [project]
 name = "sphinx-autosummary-accessors"
-license = { text = "MIT" }
+license = "MIT"
 description = "sphinx autosummary extension to properly format pandas or xarray accessors"
 authors = [
   { name = "Justus Magin", email = "keewis@posteo.de" },
