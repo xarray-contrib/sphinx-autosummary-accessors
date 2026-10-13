@@ -56,6 +56,12 @@ python = "3.15.*"
 [feature.sphinx9.dependencies]
 sphinx = "9.*"
 
+[feature.dev.dependencies]
+ipython = "*"
+sphinx-autobuild = "*"
+ipdb = "*"
+pdbpp = "*"
+
 [environments]
 build = { features = ["build"], no-default-feature = true }
 s6py311 = ["tests", "sphinx6", "py311"]
@@ -65,3 +71,4 @@ s9py311 = ["tests", "sphinx9", "py311"]
 s8py314 = ["tests", "sphinx8", "py314"]
 s9py314 = ["tests", "sphinx9", "py314"]
 s9py315 = ["tests", "sphinx9", "py315"]
+default = ["dev", "sphinx8", "py314"]
