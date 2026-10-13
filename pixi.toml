@@ -31,7 +31,7 @@ sphinx_rtd_theme = "*"
 python-build = "*"
 
 [feature.build.tasks]
-build-release = { cmd = "python -m build .", cwd = "." }
+build-release-artifacts = { cmd = "python -m build .", cwd = "." }
 
 [feature.tests.dependencies]
 pytest = "*"
