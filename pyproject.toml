@@ -28,7 +28,7 @@ Documentation = "https://sphinx-autosummary-accessors.readthedocs.io/en/stable"
 
 
 [build-system]
-requires = ["setuptools>=64", "setuptools-scm[toml]>=7.0"]
+requires = ["setuptools>=82", "setuptools-scm[toml]>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
