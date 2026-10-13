@@ -18,6 +18,7 @@ setuptools-scm = ">=8"
 
 [package.run-dependencies]
 sphinx = ">=5.3"
+packaging = "*"
 
 [tasks]
 
