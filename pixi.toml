@@ -21,6 +21,7 @@ sphinx = ">=5.3"
 packaging = "*"
 
 [tasks]
+build-docs = { cmd = "python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html", cwd = "docs" }
 
 [dependencies]
 sphinx-autosummary-accessors = { path = "." }
