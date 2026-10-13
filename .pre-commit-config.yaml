@@ -15,6 +15,7 @@ repos:
     hooks:
       - id: prettier
         args: ["--cache-location=.prettier_cache/cache"]
+        exclude: "pixi.lock"
   - repo: https://github.com/ComPWA/taplo-pre-commit
     rev: "v0.9.3"
     hooks:
