@@ -15,6 +15,7 @@ permissions: {}
 jobs:
   linux:
     name: "${{ matrix.env }}"
+    if: ${{ github.repository_owner == 'xarray-contrib' }}
     runs-on: ubuntu-latest
 
     strategy:
