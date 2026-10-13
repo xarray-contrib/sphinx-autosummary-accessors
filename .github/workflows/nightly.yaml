@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
@@ -38,13 +42,23 @@ jobs:
       always()
       && (
         github.event_name == 'schedule'
-        || needs.detect-ci-trigger.outputs.triggered == 'true'
+        || (
+          github.event_name == 'pull_request'
+          && (
+            needs.detect-ci-trigger.outputs.triggered == 'true'
+            || contains(github.event.pull_request.labels.*.name, 'run-upstream')
+          )
+        )
       )
 
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.12"]
+        env: ["nightly"]
+
+    env:
+      ENV: ${{ matrix.env }}
+      LOGFILE: "output-${{ matrix.env }}-log"
 
     outputs:
       artifacts_availability: ${{ steps.status.outputs.ARTIFACTS_AVAILABLE }}
@@ -57,39 +71,33 @@ jobs:
           fetch-depth: 0 # fetch all branches and tags
           persist-credentials: false
 
-      - name: setup python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      - name: setup pixi
+        uses: prefix-dev/setup-pixi@9dabb60412d3d2d967a8d682f7ce01317af40514 # v0.11.0
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: upgrade pip
-        run: python -m pip install --upgrade pip
-
-      - name: install sphinx
-        run: |
-          python -m pip install "git+https://github.com/sphinx-doc/sphinx"
-
-      - name: install other dependencies
-        run: python -m pip install -r ci/requirements.txt
-
-      - name: install the extension
-        run: python -m pip install .
-
-      - name: show versions
-        run: python -m pip list
+          environments: ${{ matrix.env }}
+          cache: false
 
       - name: import sphinx_autosummary_accessors
         run: |
-          python -c 'import sphinx_autosummary_accessors'
+          pixi run -e $ENV python -c 'import sphinx_autosummary_accessors'
 
       - name: build the documentation
         run: |
-          set -euo pipefail
-          cd docs
-          python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html \
-          | tee output-${{ matrix.python-version }}-log || (
-            echo "ARTIFACTS_AVAILABLE=true" >> $GITHUB_OUTPUT && false
-          )
+          ci/nightly/tee.sh "$LOGFILE" pixi run -e $ENV build-docs
+          result=$?
+
+          if [[ $result != 0 ]]; then
+            echo "ARTIFACTS_AVAILABE=true" >> $GITHUB_OUTPUT
+            exit $result
+          else
+            echo "ARTIFACTS_AVAILABE=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: upload artifacts
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: logfile
+          path: ${{ env.LOGFILE }}
 
   report:
     name: Report
@@ -102,81 +110,58 @@ jobs:
       && needs.upstream-dev.outputs.artifacts_availability == 'true'
 
     permissions:
-      issues: write
+      issues: write # create or modify upstream-dev issues
 
     steps:
       - name: checkout the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: setup python
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+
+      - name: setup pixi
+        uses: prefix-dev/setup-pixi@9dabb60412d3d2d967a8d682f7ce01317af40514 # v0.11.0
         with:
-          python-version: "3.x"
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+          environments: ${{ matrix.env }}
+          cache: false
+
+      - name: download logs
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          path: /tmp/workspace/logs
-      - name: Move all log files into a single directory
-        run: |
-          rsync -a /tmp/workspace/logs/output-*/ ./logs
-          ls -R ./logs
+          name: logfile
+          path: logs
+
       - name: Parse logs
+        env:
+          WORKFLOW_URL: "https://github.com/${{ env.GITHUB_REPOSITORY }}/actions/runs/${{ env.GITHUB_RUN_ID }}"
         run: |
-          shopt -s globstar
-          python .github/workflows/format-report.py logs/**/*-log sphinx-log.txt
+          pixi run parse-logs "$WORKFLOW_URL" logs/*-log sphinx-log.txt
+
       - name: Report failures
-        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
-        with:
-          github-token: ${{ github.token }}
-          script: |
-            const fs = require("fs");
-            const sphinx_logs = fs.readFileSync("sphinx-logs.txt", "utf8");
-            const title = "⚠️ Nightly upstream-dev CI failed ⚠️";
-            const workflow_url = `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`;
-            const issue_body = `[Workflow Run URL](${workflow_url})\n${sphinx_logs}`;
+        env:
+          ISSUE_LABEL: "CI"
+          ISSUE_TITLE: "⚠️ Nightly upstream-dev CI failed ⚠️"
+          CREATOR: "app/github-actions"
+          ISSUE_BODY: "sphinx-log.txt"
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          issues=$(gh issue list \
+            --repo "$GITHUB_REPOSITORY" \
+            -S "in:title $ISSUE_TITLE" \
+            --state open \
+            --author $CREATOR \
+            --json number,title,author \
+            -L 1
+          );
 
-            const variables = {
-              owner: context.repo.owner,
-              name: context.repo.repo,
-              label: "CI"
-              creator: "app/github-actions",
-              title: title,
-            };
-
-            const query_string = `repo:${variables.owner}/${variables.name} author:${variables.creator} label:${variables:label} is:open in:title ${variables.title}`;
-
-            // Run GraphQL query against GitHub API to find the most recent open issue used for reporting failures
-            const query = `query {
-              search(query: "${query_string}", type:ISSUE, first: 1) {
-                edges {
-                  node {
-                    ... on Issue {
-                      body
-                      id
-                      number
-                    }
-                  }
-                }
-              }
-            }`;
-
-            const result = await github.graphql(query);
-
-            // If no issue is open, create a new issue,
-            // else update the body of the existing issue.
-            if (result.repository.issues.edges.length === 0) {
-                github.rest.issues.create({
-                    owner: variables.owner,
-                    repo: variables.name,
-                    body: issue_body,
-                    title: title,
-                    labels: [variables.label]
-                });
-            } else {
-                github.rest.issues.update({
-                    owner: variables.owner,
-                    repo: variables.name,
-                    issue_number: result.repository.issues.edges[0].node.number,
-                    body: issue_body
-                });
-            }
+          if [[ $(echo "$issues" | jq 'length') -eq 1 ]]; then
+            gh issue edit \
+              --repo "$GITHUB_REPOSITORY" \
+              "$(echo "$issues" | jq '.[] | .number')" \
+              --body-file "$ISSUE_BODY"
+          else
+            gh issue new \
+              --repo "$GITHUB_REPOSITORY" \
+              --label "$ISSUE_LABEL" \
+              --title "$ISSUE_TITLE" \
+              --body-file $ISSUE_BODY
+          fi
