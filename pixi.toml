@@ -24,6 +24,7 @@ packaging = "*"
 
 [dependencies]
 sphinx-autosummary-accessors = { path = "." }
+sphinx_rtd_theme = "*"
 
 [feature.build.dependencies]
 python-build = "*"
