@@ -152,7 +152,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.7.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/uvicorn-0.54.0-pyh53cf698_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/wmctrl-0.5-pyh707e725_2.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   docs:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -216,7 +216,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/sphinxcontrib-serializinghtml-2.0.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   s6py311:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -287,7 +287,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zipp-4.1.1-pyh5ded981_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   s7py311:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -358,7 +358,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zipp-4.1.1-pyh5ded981_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   s8py311:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -429,7 +429,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   s8py314:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -499,7 +499,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   s9py311:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -569,7 +569,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   s9py314:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -638,7 +638,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   s9py315:
     channels:
     - url: https://conda.anaconda.org/conda-forge/
@@ -706,7 +706,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/typing_extensions-4.16.0-pyhcf101f3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/tzdata-2026c-h151e31d_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/urllib3-2.8.0-pyhd8ed1ab_0.conda
-      - conda_source: sphinx-autosummary-accessors[67abd119] @ .
+      - conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
 packages:
 - conda: https://conda.anaconda.org/conda-forge/linux-64/_libgcc_mutex-0.1-conda_forge.tar.bz2
   sha256: fe51de6107f9edc7aa4f786a70f4a883943bc9d39b3bb7307c04c41410990726
@@ -2921,13 +2921,13 @@ packages:
   run_exports: {}
   size: 24839
   timestamp: 1791091060207
-- conda_source: sphinx-autosummary-accessors[67abd119] @ .
+- conda_source: sphinx-autosummary-accessors[1126bdc4] @ .
   variants:
     target_platform: noarch
   depends:
   - sphinx >=5.3
   - packaging
-  - python >=3.9
+  - python >=3.11
   - python *
   license: MIT
   host_packages:
