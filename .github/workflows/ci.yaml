@@ -42,7 +42,7 @@ jobs:
         with:
           environments: ${{ matrix.env }}
           cache: true
-          cache-write: ${{ gituhb.event_name == 'push' && github.ref_name == 'main' }}
+          cache-write: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
 
       - name: build the documentation
         env:
