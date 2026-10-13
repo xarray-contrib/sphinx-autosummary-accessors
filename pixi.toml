@@ -1,0 +1,77 @@
+[workspace]
+channels = ["conda-forge"]
+name = "sphinx-autosummary-accessors"
+platforms = ["linux-64"]
+version = "0.1.0"
+preview = ["pixi-build"]
+
+[package]
+name = { workspace = true }
+version = "9999.0.0"
+
+[package.build]
+backend = { name = "pixi-build-python", version = "*" }
+
+[package.host-dependencies]
+setuptools = ">=82.0"
+setuptools-scm = ">=8"
+
+[package.run-dependencies]
+sphinx = ">=5.3"
+packaging = "*"
+
+[tasks]
+build-docs = { cmd = "python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html", cwd = "docs" }
+build-docs-rtd = { cmd = "python -m sphinx -M html -d _build/doctrees -EWT -a . $READTHEDOCS_OUTPUT/html", cwd = "docs", default-environment = "docs" }
+
+[dependencies]
+sphinx-autosummary-accessors = { path = "." }
+sphinx_rtd_theme = "*"
+
+[feature.build.dependencies]
+python-build = "*"
+
+[feature.build.tasks]
+build-release-artifacts = { cmd = "python -m build .", cwd = "." }
+
+[feature.tests.dependencies]
+pytest = "*"
+
+[feature.sphinx6.dependencies]
+sphinx = "6.*"
+
+[feature.sphinx7.dependencies]
+sphinx = "7.*"
+
+[feature.sphinx8.dependencies]
+sphinx = "8.*"
+
+[feature.py311.dependencies]
+python = "3.11.*"
+
+[feature.py314.dependencies]
+python = "3.14.*"
+
+[feature.py315.dependencies]
+python = "3.15.*"
+
+[feature.sphinx9.dependencies]
+sphinx = "9.*"
+
+[feature.dev.dependencies]
+ipython = "*"
+sphinx-autobuild = "*"
+ipdb = "*"
+pdbpp = "*"
+
+[environments]
+build = { features = ["build"], no-default-feature = true }
+s6py311 = ["tests", "sphinx6", "py311"]
+s7py311 = ["tests", "sphinx7", "py311"]
+s8py311 = ["tests", "sphinx8", "py311"]
+s9py311 = ["tests", "sphinx9", "py311"]
+s8py314 = ["tests", "sphinx8", "py314"]
+s9py314 = ["tests", "sphinx9", "py314"]
+s9py315 = ["tests", "sphinx9", "py315"]
+default = ["dev", "sphinx8", "py314"]
+docs = ["sphinx8", "py314"]

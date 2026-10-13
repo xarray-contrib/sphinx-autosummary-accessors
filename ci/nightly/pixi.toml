@@ -1,0 +1,49 @@
+[workspace]
+channels = ["conda-forge"]
+name = "sphinx-autosummary-accessors"
+platforms = ["linux-64"]
+preview = ["pixi-build"]
+
+[feature.nightly.dependencies.sphinx]
+git = "https://github.com/sphinx-doc/sphinx"
+branch = "master"
+package.version = "9999.0.0"
+package.build.backend = { name = "pixi-build-python", version = "*", channels = [
+  "conda-forge",
+] }
+package.host-dependencies = { flit-core = "*" }
+
+[feature.nightly.dependencies.sphinx.package.run-dependencies]
+sphinxcontrib-applehelp = ">=1.0.7"
+sphinxcontrib-devhelp = ">=1.0.6"
+sphinxcontrib-htmlhelp = ">=2.0.6"
+sphinxcontrib-jsmath = ">=1.0.1"
+sphinxcontrib-qthelp = ">=1.0.6"
+sphinxcontrib-serializinghtml = ">=1.1.9"
+jinja2 = ">=3.1"
+pygments = ">=2.17"
+docutils = ">=0.21"
+snowballstemmer = ">=2.2"
+babel = ">=2.13"
+alabaster = ">=0.7.14"
+imagesize = ">=1.3"
+requests = ">=2.30.0"
+roman-numerals = ">=1.0.0"
+packaging = ">=23.0"
+
+[feature.nightly.dependencies]
+python = "3.14.*"
+sphinx-autosummary-accessors = { path = "../.." }
+
+[feature.nightly.tasks]
+build-docs = { cmd = "python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html", cwd = "../../docs" }
+
+[feature.parse-logs.dependencies]
+python = "3.14.*"
+
+[feature.parse-logs.tasks]
+parse-logs = { cmd = "python ci/nightly/parse-logs.py", cwd = "../.." }
+
+[environments]
+nightly = ["nightly"]
+parse-logs = { features = ["parse-logs"], no-default-feature = true }
