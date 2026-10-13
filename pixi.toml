@@ -22,6 +22,7 @@ packaging = "*"
 
 [tasks]
 build-docs = { cmd = "python -m sphinx -M html -d _build/doctrees -EWT -a . _build/html", cwd = "docs" }
+build-docs-rtd = { cmd = "python -m sphinx -M html -d _build/doctrees -EWT -a . $READTHEDOCS_OUTPUT/html", cwd = "docs", default-environment = "docs" }
 
 [dependencies]
 sphinx-autosummary-accessors = { path = "." }
@@ -73,3 +74,4 @@ s8py314 = ["tests", "sphinx8", "py314"]
 s9py314 = ["tests", "sphinx9", "py314"]
 s9py315 = ["tests", "sphinx9", "py315"]
 default = ["dev", "sphinx8", "py314"]
+docs = ["sphinx8", "py314"]
