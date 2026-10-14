@@ -1,3 +1,5 @@
+from typing import get_origin
+
 from sphinx.ext.autodoc import AttributeDocumenter, Documenter, MethodDocumenter
 from sphinx.ext.autodoc.importer import import_module
 
@@ -72,6 +74,18 @@ class AccessorDocumenter(AccessorLevelDocumenter, MethodDocumenter):
 
     # lower than MethodDocumenter so this is not chosen for normal methods
     priority = 0.6
+
+    def import_object(self, raiseerror=False):
+        # Python 3.13.15 and 3.14.7 added a docstring to typing._GenericAlias,
+        # causing Sphinx to parse it instead of the accessor's docstring.
+        # This method unwraps the alias to instead access the accessor's docstring.
+        # See https://github.com/xarray-contrib/sphinx-autosummary-accessors/pull/171
+        imported = super().import_object(raiseerror)
+        if imported:
+            origin = get_origin(self.object)
+            if isinstance(origin, type):
+                self.object = origin
+        return imported
 
     def format_signature(self):
         # this method gives an error/warning for the accessors, therefore
