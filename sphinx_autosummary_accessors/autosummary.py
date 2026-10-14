@@ -1,14 +1,12 @@
 import re
 
 import sphinx
-from packaging import version
-from sphinx.ext.autosummary import Autosummary, generate
+from packaging import version as pv
+from sphinx.ext.autosummary import generate
 
 from sphinx_autosummary_accessors.templates import known_templates
 
 directives_re = re.compile(r"^\.\. ([^:]+):: (.+)$", re.MULTILINE)
-
-original_create_documenter = Autosummary.create_documenter
 
 
 def extract_documenter(content):
@@ -21,7 +19,46 @@ def extract_documenter(content):
     return directive_name, "::".join([modname, name])
 
 
-if version.parse(sphinx.__version__) >= version.Version("8.2.0"):
+def patch_autosummary_old(cls):
+    original_create_documenter = cls.create_documenter
+
+    def create_documenter_from_template(autosummary, app, obj, parent, full_name):
+        real_name = ".".join(full_name.split("::"))
+
+        options = autosummary.options
+        template_name = options.get("template", None)
+        if template_name is None or template_name not in known_templates:
+            return original_create_documenter(autosummary, app, obj, parent, full_name)
+
+        imported_members = options.get("imported_members", False)
+        recursive = options.get("recursive", False)
+
+        context = {}
+        context.update(app.config.autosummary_context)
+
+        rendered = generate.generate_autosummary_content(
+            real_name,
+            obj,
+            parent,
+            template=generate.AutosummaryRenderer(app),
+            template_name=template_name,
+            app=app,
+            context=context,
+            imported_members=imported_members,
+            recursive=recursive,
+        )
+
+        documenter_name, real_name = extract_documenter(rendered)
+        doccls = app.registry.documenters.get(documenter_name)
+        documenter = doccls(autosummary.bridge, real_name)
+
+        return documenter
+
+    cls.create_documenter = create_documenter_from_template
+
+
+def patch_autosummary_8_2(cls):
+    original_create_documenter = cls.create_documenter
 
     def create_documenter_from_template(
         autosummary, obj, parent, full_name, *, registry
@@ -61,36 +98,20 @@ if version.parse(sphinx.__version__) >= version.Version("8.2.0"):
 
         return documenter
 
-else:
+    cls.create_documenter = create_documenter_from_template
 
-    def create_documenter_from_template(autosummary, app, obj, parent, full_name):
-        real_name = ".".join(full_name.split("::"))
 
-        options = autosummary.options
-        template_name = options.get("template", None)
-        if template_name is None or template_name not in known_templates:
-            return original_create_documenter(autosummary, app, obj, parent, full_name)
+def patch_autosummary_9(cls):
+    pass
 
-        imported_members = options.get("imported_members", False)
-        recursive = options.get("recursive", False)
 
-        context = {}
-        context.update(app.config.autosummary_context)
-
-        rendered = generate.generate_autosummary_content(
-            real_name,
-            obj,
-            parent,
-            template=generate.AutosummaryRenderer(app),
-            template_name=template_name,
-            app=app,
-            context=context,
-            imported_members=imported_members,
-            recursive=recursive,
-        )
-
-        documenter_name, real_name = extract_documenter(rendered)
-        doccls = app.registry.documenters.get(documenter_name)
-        documenter = doccls(autosummary.bridge, real_name)
-
-        return documenter
+def patch_autosummary(cls):
+    sphinx_version = pv.parse(sphinx.__version__)
+    match sphinx_version:
+        case pv.Version(_) if sphinx_version < pv.Version("8.2.0"):
+            patch_autosummary_old(cls)
+        case pv.Version(_) if sphinx_version < pv.Version("9.0.0"):
+            patch_autosummary_8_2(cls)
+        case _:
+            # assume no further changes, to be extended later if necessary
+            patch_autosummary_9(cls)

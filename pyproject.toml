@@ -40,7 +40,6 @@ include = [
 fallback_version = "999"
 
 [tool.ruff]
-target-version = "py38"
 builtins = ["ellipsis"]
 exclude = [
   ".git",
