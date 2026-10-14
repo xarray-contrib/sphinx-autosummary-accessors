@@ -76,6 +76,10 @@ class AccessorDocumenter(AccessorLevelDocumenter, MethodDocumenter):
     priority = 0.6
 
     def import_object(self, raiseerror=False):
+        # Python 3.13.15 and 3.14.7 added a docstring to typing._GenericAlias
+        # causing Sphinx to parse it instead of the accessor's docstring
+        # this method unwrap the StringAccessor to use its original docstring
+        # See https://github.com/xarray-contrib/sphinx-autosummary-accessors/pull/171
         imported = super().import_object(raiseerror)
         if imported:
             origin = get_origin(self.object)
