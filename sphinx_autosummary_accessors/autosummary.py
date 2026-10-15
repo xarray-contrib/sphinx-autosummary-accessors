@@ -303,11 +303,10 @@ def patch_autosummary_9(app, cls):
 
 def patch_autosummary(app, cls):
     sphinx_version = pv.parse(sphinx.__version__)
-    match sphinx_version:
-        case pv.Version(_) if sphinx_version < pv.Version("8.2.0"):
-            patch_autosummary_old(cls)
-        case pv.Version(_) if sphinx_version < pv.Version("9.0.0"):
-            patch_autosummary_8_2(cls)
-        case _:
-            # assume no further changes, to be extended later if necessary
-            patch_autosummary_9(app, cls)
+    if sphinx_version < pv.Version("8.2.0"):
+        patch_autosummary_old(cls)
+    elif sphinx_version < pv.Version("9.0.0"):
+        patch_autosummary_8_2(cls)
+    else:
+        # assume no further changes, to be extended later if necessary
+        patch_autosummary_9(app, cls)
