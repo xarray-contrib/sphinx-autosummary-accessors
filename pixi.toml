@@ -26,7 +26,7 @@ build-docs-rtd = { cmd = "python -m sphinx -M html -d _build/doctrees -EWT -a . 
 
 [dependencies]
 sphinx-autosummary-accessors = { path = "." }
-furo = "*"
+pydata-sphinx-theme = "*"
 
 [feature.build.dependencies]
 python-build = "*"
