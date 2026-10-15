@@ -56,17 +56,31 @@ becomes:
 
    Example.test
 
+The docstring of the accessor itself can be documented as well, but this causes a conflicting page if the callable accessor was documented earlier:
+
+.. literalinclude:: examples.rst
+   :language: rst
+   :lines: 67-71
+
+becomes:
+
+.. autosummary::
+   :toctree: generated/
+   :template: autosummary/accessor.rst
+
+   Example.test2
+
 Methods on nested accessors can be documented, too:
 
 .. literalinclude:: example/accessors.py
    :language: python
-   :lines: 43-59
+   :lines: 47-49
 
 and
 
 .. literalinclude:: examples.rst
    :language: rst
-   :lines: 73-77
+   :lines: 87-91
 
 become:
 
@@ -80,7 +94,7 @@ Different templates still work:
 
 .. literalinclude:: examples.rst
    :language: rst
-   :lines: 87-91
+   :lines: 101-105
 
 becomes:
 
