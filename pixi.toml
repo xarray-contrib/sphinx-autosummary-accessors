@@ -58,6 +58,9 @@ python = "3.15.*"
 [feature.sphinx9.dependencies]
 sphinx = "9.*"
 
+[feature.packaging25.dependencies]
+packaging = "25.0.*"
+
 [feature.dev.dependencies]
 ipython = "*"
 sphinx-autobuild = "*"
@@ -71,6 +74,7 @@ s7py311 = ["tests", "sphinx7", "py311"]
 s8py311 = ["tests", "sphinx8", "py311"]
 s9py311 = ["tests", "sphinx9", "py311"]
 s8py314 = ["tests", "sphinx8", "py314"]
+s8py314p25 = ["tests", "sphinx8", "py314", "packaging25"]
 s9py314 = ["tests", "sphinx9", "py314"]
 s9py315 = ["tests", "sphinx9", "py315"]
 default = ["dev", "sphinx8", "py314"]
