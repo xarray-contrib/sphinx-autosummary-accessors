@@ -3,7 +3,7 @@ try:
 except ImportError:
     from importlib_metadata import version
 
-from sphinx_autosummary_accessors import autosummary
+from sphinx_autosummary_accessors.autosummary import patch_autosummary
 from sphinx_autosummary_accessors.documenters import (
     AccessorAttributeDocumenter,
     AccessorCallableDocumenter,
@@ -15,7 +15,7 @@ from sphinx_autosummary_accessors.templates import templates_path  # noqa: F401
 try:
     __version__ = version("sphinx-autosummary-accessors")
 except Exception:
-    __version__ = "999"
+    __version__ = "9999"
 
 
 def add_autosummary_create_documenter(func):
@@ -25,6 +25,9 @@ def add_autosummary_create_documenter(func):
 
 
 def setup(app):
+    from sphinx.ext.autosummary import Autosummary
+
+    app.setup_extension("sphinx.ext.autodoc")
     app.setup_extension("sphinx.ext.autosummary")
 
     app.add_autodocumenter(AccessorDocumenter)
@@ -32,6 +35,6 @@ def setup(app):
     app.add_autodocumenter(AccessorMethodDocumenter)
     app.add_autodocumenter(AccessorCallableDocumenter)
 
-    add_autosummary_create_documenter(autosummary.create_documenter_from_template)
+    patch_autosummary(app, Autosummary)
 
     return {"version": __version__, "parallel_read_safe": True}
