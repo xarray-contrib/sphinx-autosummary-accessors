@@ -1,6 +1,15 @@
 What's new
 ==========
 
+2026.10.0 (2026-10-15)
+----------------------
+- drop python 3.9 and 3.10 (:pull:`174`)
+- drop support for sphinx 5 (:pull:`174`)
+- officially support python 3.14 and 3.15 (:pull:`174`)
+- unwrap generic accessors to reach its docstring (:pull:`171`)
+- support sphinx 9 (:pull:`176`)
+- document the current conflict between callable accessors and the generic accessor (:pull:`178`)
+
 2025.03.1 (2025-03-10)
 ----------------------
 - drop support for python 3.8 (:pull:`135`)
