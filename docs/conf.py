@@ -31,7 +31,7 @@ import sphinx_autosummary_accessors  # isort:skip # noqa: F401
 print(f"sys.path: {sys.path}")
 print(f"sphinx-autosummary-accessors: {sphinx_autosummary_accessors.__version__}")
 print("environment:")
-subprocess.run(["python", "-m", "pip", "list"])
+subprocess.run(["pixi", "ls"])
 
 # -- Project information -----------------------------------------------------
 
@@ -79,6 +79,18 @@ suppress_warnings = [
 # a list of builtin themes.
 #
 html_theme = "pydata_sphinx_theme"
+
+html_title = "sphinx-autosummary-accessors"
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/xarray-contrib/sphinx-autosummary-accessors",
+            "icon": "fa-brands fa-square-github",
+            "type": "fontawesome",
+        },
+    ]
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
