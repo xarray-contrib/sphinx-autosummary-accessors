@@ -34,7 +34,7 @@ jobs:
           name: release-artifacts
           path: dist/*
 
-  deploy:
+  publish:
     name: Publish artifacts to PyPI
     runs-on: ubuntu-latest
 
