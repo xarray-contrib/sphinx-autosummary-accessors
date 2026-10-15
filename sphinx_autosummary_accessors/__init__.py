@@ -27,6 +27,7 @@ def add_autosummary_create_documenter(func):
 def setup(app):
     from sphinx.ext.autosummary import Autosummary
 
+    app.setup_extension("sphinx.ext.autodoc")
     app.setup_extension("sphinx.ext.autosummary")
 
     app.add_autodocumenter(AccessorDocumenter)
@@ -34,6 +35,6 @@ def setup(app):
     app.add_autodocumenter(AccessorMethodDocumenter)
     app.add_autodocumenter(AccessorCallableDocumenter)
 
-    patch_autosummary(Autosummary)
+    patch_autosummary(app, Autosummary)
 
     return {"version": __version__, "parallel_read_safe": True}
