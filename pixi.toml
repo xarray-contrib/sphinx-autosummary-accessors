@@ -46,6 +46,9 @@ sphinx = "7.*"
 [feature.sphinx8.dependencies]
 sphinx = "8.*"
 
+[feature.sphinx9.dependencies]
+sphinx = "9.*"
+
 [feature.py311.dependencies]
 python = "3.11.*"
 
@@ -54,9 +57,6 @@ python = "3.14.*"
 
 [feature.py315.dependencies]
 python = "3.15.*"
-
-[feature.sphinx9.dependencies]
-sphinx = "9.*"
 
 [feature.packaging25.dependencies]
 packaging = "25.0.*"
@@ -79,3 +79,4 @@ s9py314 = ["tests", "sphinx9", "py314"]
 s9py315 = ["tests", "sphinx9", "py315"]
 default = ["dev", "sphinx8", "py314"]
 docs = ["sphinx8", "py314"]
+s9-py315 = ["sphinx9", "py315"]
