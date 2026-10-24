@@ -39,6 +39,7 @@ pytest = "*"
 
 [feature.sphinx6.dependencies]
 sphinx = "6.*"
+packaging = "25.*"
 
 [feature.sphinx7.dependencies]
 sphinx = "7.*"
@@ -58,9 +59,6 @@ python = "3.14.*"
 [feature.py315.dependencies]
 python = "3.15.*"
 
-[feature.packaging25.dependencies]
-packaging = "25.0.*"
-
 [feature.dev.dependencies]
 ipython = "*"
 sphinx-autobuild = "*"
@@ -69,14 +67,13 @@ pdbpp = "*"
 
 [environments]
 build = { features = ["build"], no-default-feature = true }
-s6py311 = ["tests", "sphinx6", "py311"]
+min-deps = ["tests", "sphinx6", "py311"]
 s7py311 = ["tests", "sphinx7", "py311"]
 s8py311 = ["tests", "sphinx8", "py311"]
 s9py311 = ["tests", "sphinx9", "py311"]
 s8py314 = ["tests", "sphinx8", "py314"]
-s8py314p25 = ["tests", "sphinx8", "py314", "packaging25"]
 s9py314 = ["tests", "sphinx9", "py314"]
 s9py315 = ["tests", "sphinx9", "py315"]
+s9-py315 = ["tests", "sphinx9", "py315"]
 default = ["dev", "sphinx8", "py314"]
 docs = ["sphinx8", "py314"]
-s9-py315 = ["sphinx9", "py315"]
